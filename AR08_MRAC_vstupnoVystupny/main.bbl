@@ -1,0 +1,24 @@
+\begin{thebibliography}{1}
+
+\bibitem{IF06}
+P.~Ioannou and B.~Fidan.
+\newblock {\em Adaptive Control Tutorial}.
+\newblock Society for Industrial and Applied Mathematics, USA., 2006.
+
+\bibitem{Mon74}
+R.~Monopoli.
+\newblock Model reference adaptive control with an augmented error signal.
+\newblock {\em IEEE Transactions on Automatic Control}, 19(5):474 -- 484, oct
+  1974.
+
+\bibitem{MH93}
+J.~Murgaš and I.~Hejda.
+\newblock {\em Adaptívne riadenie technologických procesov}.
+\newblock Slovenská technická univerzita v Bratislave, 1993.
+
+\bibitem{PY98}
+K.~M. Passino and S.~Yurkovich.
+\newblock {\em Fuzzy Control}.
+\newblock Addison Wesley Longman, Inc., 1998.
+
+\end{thebibliography}
