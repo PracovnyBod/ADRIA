@@ -2,9 +2,9 @@
 
 ## Učebné texty
 Momentálne dostupné tu:
-* https://www.overleaf.com/read/xgrcgjqhmrtw
-* https://www.overleaf.com/read/gdjbdqjxvwbx
-* https://www.overleaf.com/read/qcjscjrqyrwn
+* AR01_adaptStabil: https://www.overleaf.com/read/xgrcgjqhmrtw
+* AR02_prehladAR: ARhttps://www.overleaf.com/read/gdjbdqjxvwbx
+* AR03_STR_RMNS: https://www.overleaf.com/read/qcjscjrqyrwn
 
 
 ## Python (inštalovaný ako distribúcia balíčkov...)
