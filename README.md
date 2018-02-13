@@ -3,7 +3,7 @@
 ## Učebné texty
 Momentálne dostupné tu:
 * AR01_adaptStabil: https://www.overleaf.com/read/xgrcgjqhmrtw
-* AR02_prehladAR: ARhttps://www.overleaf.com/read/gdjbdqjxvwbx
+* AR02_prehladAR: https://www.overleaf.com/read/gdjbdqjxvwbx
 * AR03_STR_RMNS: https://www.overleaf.com/read/qcjscjrqyrwn
 
 
