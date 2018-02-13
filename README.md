@@ -2,8 +2,8 @@
 
 ## Učebné texty
 Momentálne dostupné tu:
-https://www.overleaf.com/read/xgrcgjqhmrtw
-https://www.overleaf.com/read/gdjbdqjxvwbx
+* https://www.overleaf.com/read/xgrcgjqhmrtw
+* https://www.overleaf.com/read/gdjbdqjxvwbx
 
 
 ## Python (inštalovaný ako distribúcia balíčkov...)
