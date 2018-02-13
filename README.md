@@ -4,6 +4,7 @@
 Momentálne dostupné tu:
 * https://www.overleaf.com/read/xgrcgjqhmrtw
 * https://www.overleaf.com/read/gdjbdqjxvwbx
+* https://www.overleaf.com/read/qcjscjrqyrwn
 
 
 ## Python (inštalovaný ako distribúcia balíčkov...)
