@@ -1,5 +1,11 @@
 # Poznámky:
 
+## Učebné texty
+Momentálne dostupné tu:
+https://www.overleaf.com/read/xgrcgjqhmrtw
+https://www.overleaf.com/read/gdjbdqjxvwbx
+
+
 ## Python (inštalovaný ako distribúcia balíčkov...)
 Pre všeobecné používanie Python-u na Windows, obzvlášť pre „vedecké výpočty“, sa čitateľovi odporúča, tak ako sa uvádza aj tu: https://www.scipy.org/install.html, distribúcia Anaconda: https://www.continuum.io/downloads
 
