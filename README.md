@@ -5,6 +5,9 @@ Momentálne dostupné tu:
 * AR01_adaptStabil: https://www.overleaf.com/read/xgrcgjqhmrtw
 * AR02_prehladAR: https://www.overleaf.com/read/gdjbdqjxvwbx
 * AR03_STR_RMNS: https://www.overleaf.com/read/qcjscjrqyrwn
+* AR04_STR_PolePlacement: https://www.overleaf.com/read/sngsddwytfgx
+* AR05_MRAC_gradientny: https://www.overleaf.com/read/gbfjbgtwmpnx
+
 
 
 ## Python (inštalovaný ako distribúcia balíčkov...)

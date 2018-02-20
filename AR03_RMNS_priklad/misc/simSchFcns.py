@@ -132,8 +132,8 @@ def fcn_simSch_02_lenRMNS(t_start, T_s, finalIndex, sig_u_ext):
         #----------
         e_k = y_k - np.matmul(h_k.T, theta_km1)
 
-        lambdaKoef = 1.0
-        # lambdaKoef = 0.5
+        # lambdaKoef = 1.0
+        lambdaKoef = 0.95
 
         Y_k =  np.matmul(P_km1, h_k) / (lambdaKoef + np.matmul(np.matmul(h_k.T, P_km1), h_k))
 
@@ -223,8 +223,8 @@ def fcn_simSch_02_lenRMNS_noise(t_start, T_s, finalIndex, sig_u_ext):
 
     RMNS_y_predict_log = np.zeros([finalIndex, 1])
 
-    # lambdaKoef = 1.00
-    lambdaKoef = 0.95
+    lambdaKoef = 1.00
+    # lambdaKoef = 0.95
 
     #-----------------------------------------
 
