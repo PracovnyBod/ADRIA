@@ -35,4 +35,4 @@ Len pre zobrazenie (úplné renderovanie) notebookov je možné použiť https:/
 
 ##
 
-![instalogo](/misc/instalogo.png) [@pracovnybod](https://www.instagram.com/pracovnybod/)
+![instalogo](/misc/instalogo.png) [@pracovnybod](https://www.instagram.com/pracovnybod/), ba aj [@fei.stuba](https://www.instagram.com/fei.stuba/)
