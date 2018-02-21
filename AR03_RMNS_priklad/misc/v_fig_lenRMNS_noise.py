@@ -7,7 +7,7 @@
 
 
 
-figNameNum = 1
+# figNameNum = 1
 figNamePrefix = 'v_fig_lenRMNS_noise_'
 
 figPlotParam = fcnDefaultFigSize(13, 0.09, 0.95, 0.06, 0.45, 13)
