@@ -7,6 +7,8 @@ Momentálne dostupné tu:
 * AR03_STR_RMNS: https://www.overleaf.com/read/qcjscjrqyrwn
 * AR04_STR_PolePlacement: https://www.overleaf.com/read/sngsddwytfgx
 * AR05_MRAC_gradientny: https://www.overleaf.com/read/gbfjbgtwmpnx
+* AR06_MRAC_stavovy: https://www.overleaf.com/read/kcgsfrkhgmxk
+* AR07_MRC_vseobecne: https://www.overleaf.com/read/rwhwqknfvqbr
 
 
 
