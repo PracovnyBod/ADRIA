@@ -9,6 +9,7 @@ Momentálne dostupné tu:
 * AR05_MRAC_gradientny: https://www.overleaf.com/read/gbfjbgtwmpnx
 * AR06_MRAC_stavovy: https://www.overleaf.com/read/kcgsfrkhgmxk
 * AR07_MRC_vseobecne: https://www.overleaf.com/read/rwhwqknfvqbr
+* AR08_MRAC_vstupnoVystupny: https://www.overleaf.com/read/twkwnwywwqrg
 
 
 
