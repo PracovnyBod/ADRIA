@@ -5,21 +5,17 @@ import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 
 ###############################################################################
-mpl.rcParams['figure.dpi'] = 120
+mpl.rcParams['figure.dpi'] = 96
+
+mpl.rcParams['font.family'] = 'Arial'
+# mpl.rcParams['font.family'] = 'Latin Modern Roman'
+# mpl.rcParams['font.family'] = 'Times New Roman'
+mpl.rcParams['mathtext.fontset'] = 'stix'
+# mpl.rcParams['mathtext.fontset'] = 'cm'
 
 
-# mpl.rcParams['mathtext.fontset'] = 'stix'
 
-
-mpl.rcParams['font.family'] = 'serif'
-
-#mpl.rcParams['text.usetex'] = False
-mpl.rcParams['text.usetex'] = True
-mpl.rcParams['text.latex.unicode'] = True
-mpl.rcParams['text.latex.preamble'] = '\usepackage[T1]{fontenc}, \usepackage{lmodern}'
-
-
-mpl.rcParams['font.size'] = 10
+mpl.rcParams['font.size'] = 9
 
 mpl.rcParams['xtick.direction'] = 'out'
 mpl.rcParams['xtick.labelsize'] = mpl.rcParams['font.size']
