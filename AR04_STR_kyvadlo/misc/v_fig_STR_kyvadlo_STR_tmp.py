@@ -35,16 +35,6 @@ ax0.plot(t_log, x_log[:,0] *180/np.pi,
          )
 
 
-# ax0.plot(t_log, x_log[:,0] * (180/np.pi) -  (kyvadloFcns.fcn_PrevodChar(sig_u_pb[:,0])*180/np.pi),
-#          '-k',
-#          label=u'$y(t)$',
-#          )
-
-# ax0.plot(t_log, (RMNS_y_predict_log + (kyvadloFcns.fcn_PrevodChar(sig_u_pb)))*180/np.pi,
-#          '.', color='r', ms=0.5, alpha=0.5,
-#          label=u'$\hat y(t)$',
-#          )
-
 # ax0.set_ylim([30-10, 30+25])
 ax0.set_ylim([10, 90])
 
@@ -104,7 +94,6 @@ ax23.plot(t_log, RMNS_theta_log[:,3],
          )
 
 ax23.set_title(u'$b_2$', x=0.01, y=1.02, ha='left')
-
 
 
 #------------------

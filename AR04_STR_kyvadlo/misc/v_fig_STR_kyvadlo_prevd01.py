@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 
-
-
-
 figNamePostfix = 'prevodovka'
 figNamePrefix = 'Obr_'
 figPlotParam = fcnDefaultFigSize(14, 0.15, 0.92, 0.08, 0.4, 13)
@@ -21,8 +18,6 @@ ax0.set_xlabel(u'vstup\n[kg m2 s−2]', x=1.03, ha='left', va='bottom')
 ax0.plot(u_pb_vals, y_pb_vals * (180/np.pi),
          '-k',
          )
-
-
 
 
 #------------------

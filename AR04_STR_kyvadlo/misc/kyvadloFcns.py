@@ -14,13 +14,6 @@ def fcn_difRovnice(x, t, u):
 
     x_1, x_2 = x
 
-
-    # u_limit = 10 * g
-    # if u >= u_limit:
-    #     u = u_limit
-    # elif u <= -u_limit:
-    #     u = -u_limit
-
     dotx_1 = x_2
     dotx_2 = -(beta/m*l**2) * x_2 - (g/l) * np.sin(x_1) + (1/m*l**2) * u
 
