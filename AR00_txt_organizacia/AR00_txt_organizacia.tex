@@ -1,0 +1,269 @@
+\documentclass[a4paper, 10pt, ]{article}
+
+\input{misc/preamble.tex}
+
+\def\oznacenieCasti{AR00 - LS2019}
+
+
+
+\usepackage{pdflscape}
+
+\usepackage{longtable}
+
+
+
+\begin{document}
+
+
+
+
+
+\fontsize{12pt}{22pt}\selectfont
+
+\centerline{\textsf{Adaptívne riadenie} \hfill \textsf{\oznacenieCasti}}
+
+\fontsize{18pt}{22pt}\selectfont
+
+
+
+
+
+\begin{flushleft}
+	\textbf{\textsf{Organizácia predmetu}}
+\end{flushleft}
+
+
+
+
+
+\normalsize
+
+\bigskip
+
+
+
+\noindent
+Adaptívne riadenie (LS, ak.r. 2018/2019)
+
+\medskip
+
+\noindent
+Cieľ predmetu: \newline
+Študenti po absolvovaní predmetu získajú vedomosti o~najvýznamnejších metódach a~algoritmoch používaných v~oblasti adaptívneho riadenia procesov. Absolventi predmetu získajú vedomosti týkajúce sa odvodenia a~analýzy vlastností vybraných algoritmov priameho adaptívneho riadenia a nepriameho adaptívneho riadenia. Získajú poznatky o~základných princípoch vybraných heuristických adaptívnych regulátorov, komerčných adaptívnych regulátorov, a~princípoch využitia adaptácie pri fuzzy riadiacich systémoch.
+
+\medskip
+
+\noindent
+Zodpovedný za predmet: prof. Ing. Ján Murgaš, PhD.
+
+\medskip
+
+\noindent
+Predmet patrí medzi povinné predmety a študent po absolvovaní získa 7~kreditov. Týždenný rozsah predmetu: prednášky: 2 h, cvičenia: 2 h
+
+\bigskip
+
+\noindent
+\textbf{\textsf{Predmet zabezpečujú:}}
+
+\medskip
+
+\noindent
+Ing. Marián Tárník, PhD. (prednášky, cvičenia)
+
+\bigskip
+
+\noindent
+\textbf{\textsf{Podmienky absolvovania predmetu:}}
+
+\noindent
+\begin{enumerate}
+
+	\item Aktívna účasť na vyučovacom procese.
+
+	\item Počas semestra je možné získať max. 60 bodov, pričom pre splnenie podmienok pre vykonanie skúšky je potrebných 33,6 bodu.
+
+	\item Je potrebná účasť na záverečnej skúške, je možné získať max. 40 bodov.
+
+\end{enumerate}
+
+\bigskip
+
+\noindent
+\textbf{\textsf{Priebežné hodnotenie študentov dennej prezenčnej formy štúdia počas semestra:}}
+
+\noindent
+\begin{itemize}
+	\item Priebežná práca na cvičeniach:  19 bodov
+	\item Krátka písomka na cvičeniach:  6 bodov
+	\item Písomka v čase 7. prednášky:  20 bodov
+	\item Vypracovanie zadania (referát):  15 bodov
+\end{itemize}
+
+
+\bigskip
+
+\noindent
+\textbf{\textsf{Priebežné hodnotenie študentov dennej dištančnej formy štúdia počas semestra:}}
+
+\noindent
+\begin{itemize}
+	\item Vypracovanie 4 zadaní (referát):  4 $\times$ 10 bodov
+	\item Písomka:  20 bodov
+\end{itemize}
+
+
+
+
+
+
+\nocite{*}
+\bibliography{misc/Bib_KurzAR}{}
+\bibliographystyle{plain}
+
+
+
+
+
+
+
+
+
+
+\begin{landscape}
+
+
+
+
+    \phantom{}
+
+    \vfill
+
+
+
+    \noindent
+    \textbf{\textsf{Harmonogram semestra pre študentov dennej prezenčnej formy štúdia}}
+
+    \bigskip
+
+
+    \noindent
+    \begin{tabular*}{\linewidth}{   >{\raggedright}p{1.2cm} @{\extracolsep{\fill}}    >{\raggedright}p{10.9cm}        p{11.6cm}<{\raggedright}      }
+    	Týždeň             & Prednáška & Cvičenie     \\
+    	\toprule
+    	1.  &  Úvod, stabilita systémov, adaptívna stabilizácia. & Adaptívna stabilizácia (1b) \\
+    	\midrule
+    	2.  & Samonastavujúci sa regulátor: rekurzívna metóda najmenších štvorcov. & Samonastavujúci sa regulátor: rekurzívna metóda najmenších štvorcov (2b) \\
+    	\midrule
+    	3.  & Samonastavujúci sa regulátor (info k cv), riadenie s~referenčným modelom. & Samonastavujúci sa regulátor: metóda rozmiestňovania pólov (2b) \\
+    	\midrule
+    	4.  & MRAC gradientný. & Krátka písomka (6b), prípadné dokončenie predchádzajúcich úloh \\
+    	\midrule
+    	5.  & MRAC~gradientný (info k cv.), MRAC stavový.  & MRAC~gradientný (2b) \\
+    	\midrule
+    	6.  & MRAC stavový (info k cv.), riadenie s referenčným modelom vo všeobecnosti - MRC~problém. & MRAC stavový (3b) \\
+    	\midrule
+    	7.  & Písomka (prezenčná f.) (20b) & MRC problém, prípadné dokončenie predchádzajúcich úloh \\
+    	\midrule
+    	8.  & MRAC vstupno-výstupný pre $n^\star = 1$. & MRAC vstupno-výstupný pre $n^\star = 1$ (5b) \\
+    	\midrule
+    	9.  &  \#ŠVOČ & Poznámky k robustnému adaptívnemu riadeniu (vplyv šumu a~nemodelovanej dynamiky) \\
+    	\midrule
+    	10. & MRAC vstupno-výstupný pre $n^\star = 2$, príklad.  &  MRAC vstupno-výstupný pre $n^\star = 2$: vypracovanie zadania (referátu) I\\
+    	\midrule
+    	11. & Rôzne. & MRAC vstupno-výstupný pre $n^\star = 2$: vypracovanie zadania (referátu) II  \\
+    	\midrule
+    	12. & 1. máj  & AR pre kyvadlo (kyvadlo ako riadený systém) (4b)  \\
+    	\midrule
+    	13. & Streda v utorok (40b ak sa podarí) & Udeľovanie „zápočtov“ {\scriptsize \emph{(nech už to znamená čokoľvek)}} \\
+    	\bottomrule
+    \end{tabular*}
+
+    \vfill
+
+    \phantom{}
+
+
+
+
+
+
+    \pagebreak
+
+
+
+
+
+
+
+
+
+
+
+\pagebreak
+
+\phantom{}
+
+\vfill
+
+
+
+
+\noindent
+\textbf{\textsf{Harmonogram semestra pre študentov dennej dištančnej formy štúdia}}
+
+\bigskip
+
+
+\noindent
+\begin{tabular*}{\linewidth}{   >{\raggedright}p{1.2cm} @{\extracolsep{\fill}}    >{\raggedright}p{11.5cm}        p{11.0cm}<{\raggedright}      }
+	Týždeň            & Prednáška (uvedený je len harmonogram základných tém)  & Konzultácia    \\
+	\toprule
+	1.   &  &  Adaptívna stabilizácia - zadanie 1. (10b)  \\
+	\midrule
+	2.  & Samonastavujúci sa regulátor   &  \\
+	\midrule
+	3.  &  & Samonastavujúci sa regulátor - zadanie 2. (10b)   \\
+	\midrule
+	4.  & MRAC gradientný   &  \\
+	\midrule
+	5.  & MRAC stavový  & MRAC~gradientný - zadanie 3. (10b)    \\
+	\midrule
+	6.  &  &   \\
+	\midrule
+	8.  & MRAC vstupno-výstupný pre $n^\star = 1$  & Písomka (dištančná f.) (20b)   \\
+	\midrule
+	8.  &  &   \\
+	\midrule
+	9. &  & MRAC stavový - zadanie 4. (10b)     \\
+	\midrule
+	10. & MRAC vstupno-výstupný pre $n^\star = 2$  &   \\
+	\midrule
+	11. &  & MRAC vstupno-výstupný    \\
+	\midrule
+	12. &  &    \\
+	\bottomrule
+\end{tabular*}
+
+
+\vfill
+
+\phantom{}
+
+
+
+\end{landscape}
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
