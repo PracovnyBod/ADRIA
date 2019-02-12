@@ -10,3 +10,5 @@ AR99_oStabilite
 *.out
 *.synctex.gz
 *.toc
+*.bbl
+*.blg
