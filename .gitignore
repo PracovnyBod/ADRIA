@@ -1,8 +1,16 @@
+
+
 .ipynb_checkpoints
+
 old
 dev
+
 AR99_oStabilite
+
+
 *.pyc
+
+
 *.aux
 *.fdb_latexmk
 *.fls
@@ -12,3 +20,7 @@ AR99_oStabilite
 *.toc
 *.bbl
 *.blg
+
+
+slprj
+*.slxc
