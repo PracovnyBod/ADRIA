@@ -419,6 +419,48 @@ kde sme zaviedli samostatné adaptačné zosilnenia $\alpha_1$ a $\alpha_2$ pre 
 
 
 
+
+
+
+\begin{figure}[t]
+	\centering
+
+	\subfloat[Referenčný sigál $r$]{%
+		\label{Referenčný sigál $r$}
+		\makebox[\textwidth][c]{%
+		\includegraphics{Obr_cv2Vzor_a.pdf}
+		}
+	}
+
+	\vspace{-15mm}
+
+	\subfloat[Výstup riadeného systému $y$ a výstup referenčného modelu $y_m$]{%
+		\label{Výstup riadeného systému $y$ a výstup referenčného modelu $y_m$}
+		\makebox[\textwidth][c]{%
+		\includegraphics{Obr_cv2Vzor_b.pdf}
+		}
+	}
+
+	\vspace{-10mm}
+
+	\subfloat[Adaptačná odchýlka $e$]{%
+		\label{Adaptačná odchýlka $e$}
+		\makebox[\textwidth][c]{%
+		\includegraphics{Obr_cv2Vzor_c.pdf}
+		}
+}
+	\caption{Vzorové výsledky simulácie pre cvičenie druhé}
+	\label{Vzorové výsledky simulácie pre cvičenie druhé}
+
+\end{figure}
+
+
+
+
+
+
+
+
 \begin{enumerate}
 
 	\item  Pri návrhu autopilota pre kormidlovanie nákladnej lode sa používa zjednodušený model lode tzv. Nomotov (K. Nomoto -- vedec, ktorý sa zaoberal návrhom autopilota pre lode) model, ktorý má tvar prenosovej funkcie:
@@ -475,35 +517,192 @@ kde sme zaviedli samostatné adaptačné zosilnenia $\alpha_1$ a $\alpha_2$ pre 
 
 
 
+
+
+
+
+
+
+
+\section{Doplnkové príklady}
+
+
+\subsection{Statický systém 1. rádu -- príklad}
+
+Nech riadený systém je daný prenosovou funkciou v tvare
+\begin{equation}
+    \frac{y(s)}{u(s)} = \frac{b_0}{s+a_0}
+\end{equation}
+Vo všeobecnosti sú parametre $a_0$ a $b_0$ neznáme, alebo sa menia v čase (tak, že je možné uplatniť adaptívne riadenie v rozsahu tohto kurzu). Pre potreby numerickej simulácie nech použijú sa hodnoty $a_0 = 0,55$ a $b_0 = 1,0$.
+
+Nech zákon riadenia je v tvare
+\begin{equation}
+    u = \Theta_1 y + \Theta_2 r
+\end{equation}
+
+
+\subsubsection{Návrh adaptívneho riadiaceho systému}
+
+Navrhnime adaptívny riadiaci systém s využitím gradientného algoritmu adaptácie (MRAC --- gradientný). Pri tom nech referenčný model je v tvare
+\begin{equation} \label{prtfrm}
+    \frac{y_m(s)}{r(s)} = \frac{b_m}{s + a_m}
+\end{equation}
+kde $a_m = 1,0$ a $b_m = 1,0$.
+
+V prvom rade, je vôbec možné, aby sa, v zmysle riadenia s referenčným modelom, zhodoval uzavretý regulačný obvod (URO) s referenčným modelom? Zostavme URO:
+\begin{subequations}
+    \begin{align}
+        y &= \frac{b_0}{\left( s+a_0 \right)} u \\
+        y &= \frac{b_0}{\left( s+a_0 \right)} \left( \Theta_1 y + \Theta_2 r \right) \\
+        y &= \frac{b_0 \Theta_1 y}{\left( s+a_0 \right)} + \frac{b_0 \Theta_2 r}{\left( s+a_0 \right)} \\
+        \left( s+a_0 \right) y &= b_0 \Theta_1 y + b_0 \Theta_2 r \\
+        \left( s+a_0 \right) y - b_0 \Theta_1 y &= b_0 \Theta_2 r \\
+        \left( s + a_0 - b_0 \Theta_1 \right) y &= b_0 \Theta_2 r \\
+        y &= \frac{b_0 \Theta_2}{\left( s + a_0 - b_0 \Theta_1 \right)} r \\
+        \frac{y}{r} &= \frac{b_0 \Theta_2}{\left( s + a_0 - b_0 \Theta_1 \right)} \label{prtfuro}
+    \end{align}
+\end{subequations}
+
+Je potrebné zistiť, kedy, a či vôbec, sa bude prenosová funkcia \eqref{prtfuro} zhodovať s~referenčným modelom \eqref{prtfrm}. Je očividné, že ak by boli parametre zákona riadenia $\Theta_1$ a $\Theta_2$ také, že
+\begin{subequations}
+    \begin{align}
+        a_0 - b_0 \Theta_1^\star &= a_m \\
+        b_0 \Theta_2^\star &= b_m
+    \end{align}
+\end{subequations}
+teda
+\begin{subequations} \label{prpodmz}
+    \begin{align}
+        \Theta_1^\star &= \frac{-a_m + a_0}{b_0}  \\
+        \Theta_2^\star &= \frac{b_m}{b_0}
+    \end{align}
+\end{subequations}
+Rovnice \eqref{prpodmz} sú podmienkami zhody. Nie len, že existujú, ale sú aj riešiteľné. To znamená, že má význam pokúšať sa adaptovať zákon riadenia s daným cieľom, pretože je možné teoreticky dosiahnuť zhodu medzi URO a referenčným modelom.
+
+
+\paragraph{Neadaptívny zákon riadenia (len tak mimochodom)}
+Využiť podmienky zhody \eqref{prpodmz} by sme mohli, ak by sme poznali parametre riadeného systému $a_0$ a $b_0$. My ich poznáme, keďže sme si ich vyššie uviedli pre potreby numerickej simulácie. Preto sa na chvíľu nevenujme adaptívnemu zákonu riadenia a otestujme neadaptívny, teda taký, ktorého parametre sú dané podmienkami zhody \eqref{prpodmz}. Po dosadení čísiel platí
+\begin{subequations}
+    \begin{align}
+        \Theta_1^\star &= 1  \\
+        \Theta_2^\star &= -0,45
+    \end{align}
+\end{subequations}
+S využitím týchto parametrov zákona riadenia sa URO zhoduje s referenčným modelom, čo ilustruje obr.~\ref{fig_tex_01_1}.
+
+
+
+
+
+
 \begin{figure}[t]
 	\centering
 
-	\subfloat[Referenčný sigál $r$]{%
-		\label{Referenčný sigál $r$}
-		\makebox[\textwidth][c]{%
-		\includegraphics{Obr_cv2Vzor_a.pdf}
-		}
+	\makebox[\textwidth][c]{%
+	\includegraphics{fig_tex_01_1.pdf}
 	}
 
-	\vspace{-15mm}
+	\caption{Výsledok s použitím podmienok zhody \eqref{prpodmz}.}
+	\label{fig_tex_01_1}
 
-	\subfloat[Výstup riadeného systému $y$ a výstup referenčného modelu $y_m$]{%
-		\label{Výstup riadeného systému $y$ a výstup referenčného modelu $y_m$}
-		\makebox[\textwidth][c]{%
-		\includegraphics{Obr_cv2Vzor_b.pdf}
-		}
+\end{figure}
+
+
+
+
+\bigskip
+
+\noindent
+Navrhujeme adaptívny riadiaci systém s využitím gradientného prístupu, inými slovami, s využitím MIT pravidla. Pripomeňme, že zákon adaptácie má v tomto prípade vo všeobecnosti tvar
+\begin{equation}
+	\dot \Theta = - \alpha e \frac{\partial e}{\partial \Theta}
+\end{equation}
+V tomto prípade však máme dva parametre zákona riadenia a teda v tomto prípade je $\Theta$ vektorom, $\Theta^\naT = \begin{bmatrix} \Theta_1 & \Theta_2 \end{bmatrix}$. Z toho vyplíva, že aj citlivostná funkcia $\frac{\partial e}{\partial \Theta}$ je má dva prvky (je vektorom). V každom prípade, pre nájdenie citlivostnej funckie (citlivostných funkcií) je potrebné vyjadriť adaptačnú odchýlku $e$ tak, aby obsahovala parametre zákona riadenia $\Theta$. Platí $e = y - y_m$. Ak sa za $y$ dosadí výraz, ktorý opisuje URO, potom
+\begin{subequations}
+    \begin{align}
+        e &= y - y_m \\
+        e &= \frac{b_0 \Theta_2}{\left( s + a_0 - b_0 \Theta_1 \right)} r - y_m \\
+        e &= b_0 \Theta_2 \, \left( s + a_0 - b_0 \Theta_1 \right)^{-1} r - y_m
+    \end{align}
+\end{subequations}
+Tento výraz potom možno derivovať podľa parametrov zákona riadenia $\Theta_1$ a $\Theta_2$.
+
+Nájdime prvú citlivostnú funkciu $\frac{\partial e}{\partial \Theta_1}$.
+\begin{subequations}
+    \begin{align}
+        \frac{\partial e}{\partial \Theta_1} &= b_0 \Theta_2 \, (-1)\left( s + a_0 - b_0 \Theta_1 \right)^{-2} (-1) b_0 r \\
+        \frac{\partial e}{\partial \Theta_1} &= b_0\, \left( s + a_0 - b_0 \Theta_1 \right)^{-1} \left( \frac{b_0}{\left( s + a_0 - b_0 \Theta_1 \right)} r \right) \\
+        \frac{\partial e}{\partial \Theta_1} &=  \frac{b_0}{\left( s + a_0 - b_0 \Theta_1 \right)}\, y
+    \end{align}
+\end{subequations}
+Ďalej nájdime druhú citlivostnú funkciu $\frac{\partial e}{\partial \Theta_2}$.
+\begin{subequations}
+    \begin{align}
+        \frac{\partial e}{\partial \Theta_2} &= b_0 \, \left( s + a_0 - b_0 \Theta_1 \right)^{-1} r \\
+        \frac{\partial e}{\partial \Theta_2} &=  \frac{b_0}{\left( s + a_0 - b_0 \Theta_1 \right)}\, r
+    \end{align}
+\end{subequations}
+To bolo ľahké. Akokoľvek, nájdené citlivostné fukcie nevieme realizovať, teda nevieme ich použiť v zákone adaptácie. Pretože obsahujú neznáme parametre riadeného systému, parametre $a_0$ a $b_0$. Aproximujme citlivostné funkcie. Ak $\alpha$ v zákone adaptácie je ľubovolné číslo, potom aj $\alpha b_0$ je ľubovolné číslo. Teda hodnotu $b_0$ stačí nahradiť len príslušným znamienkom (potrebujeme poznať znamienko parametra $b_0$). Ďalej, polynóm $\left( s + a_0 - b_0 \Theta_1 \right)$ je charakteristickým polynómom URO. To znamená, že ak by sa URO zhodoval s referenčným modelom, potom by pre tento charakteristický polynóm platilo $\left( s + a_0 - b_0 \Theta_1^\star \right)$. To ale znamená, že by sa zhodoval s charaketristickým polynómom referenčného modelu. Ak predpokladáme, že URO bude aspoň blízko referenčnému modelu počas celej doby, potom je charakteristický polynóm referenčného modelu vhodnou aproximáciou neznámeho polynómu v citlivostných funkciách. Z uvedeného plynie, že aproximácie citlivostných funkcií by mohli byť:
+\begin{subequations}
+    \begin{align}
+        \frac{\partial e}{\partial \Theta_1} &\approx  \frac{1}{\left( s + a_m \right)}\, y \\
+        \frac{\partial e}{\partial \Theta_2} &\approx  \frac{1}{\left( s + a_m \right)}\, r
+    \end{align}
+\end{subequations}
+S použitím týchto aproximácií citlivostných funkcií je teraz možné zostaviť zákony adaptácie podľa MIT pravidla, teda:
+\begin{subequations}
+    \begin{align}
+        \dot \Theta &= - \alpha e \frac{\partial e}{\partial \Theta} \\
+        \begin{bmatrix} \dot \Theta_1 \\ \dot \Theta_2 \end{bmatrix} &= - \alpha e \begin{bmatrix} \frac{\partial e}{\partial \Theta_1} \\ \frac{\partial e}{\partial \Theta_2} \end{bmatrix} \\
+        \begin{bmatrix} \dot \Theta_1 \\ \dot \Theta_2 \end{bmatrix} &= - \alpha e \begin{bmatrix} \frac{1}{\left( s + a_m \right)}\, y \\ \frac{1}{\left( s + a_m \right)}\, r \end{bmatrix}
+    \end{align}
+\end{subequations}
+Alebo samostatne zapísané:
+\begin{subequations}
+    \begin{align}
+        \dot \Theta_1 &= - \alpha e \left( \frac{1}{\left( s + a_m \right)}\, y \right) \\
+        \dot \Theta_2 &= - \alpha e \left( \frac{1}{\left( s + a_m \right)}\, r \right)
+    \end{align}
+\end{subequations}
+
+
+
+
+\subsubsection{Numerické simulácie}
+\label{ss1rnumsim}
+
+Zvoľme $\alpha = 0,5$ a nech $\Theta_1(0) = 0$ a $\Theta_2(0) = 0$. Výsledky numerickej simulácie sú na obr.~\ref{fig_tex_01_2} a obr.~\ref{fig_tex_02_2}.
+
+
+
+
+
+
+
+
+\begin{figure}[t]
+	\centering
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{fig_tex_01_2.pdf}
 	}
 
-	\vspace{-10mm}
+	\caption{k časti \ref{ss1rnumsim}}
+	\label{fig_tex_01_2}
 
-	\subfloat[Adaptačná odchýlka $e$]{%
-		\label{Adaptačná odchýlka $e$}
-		\makebox[\textwidth][c]{%
-		\includegraphics{Obr_cv2Vzor_c.pdf}
-		}
-}
-	\caption{Vzorové výsledky simulácie pre cvičenie druhé}
-	\label{Vzorové výsledky simulácie pre cvičenie druhé}
+\end{figure}
+
+
+
+\begin{figure}[t]
+	\centering
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{fig_tex_02_2.pdf}
+	}
+
+	\caption{k časti \ref{ss1rnumsim}}
+	\label{fig_tex_02_2}
 
 \end{figure}
 
@@ -515,6 +714,8 @@ kde sme zaviedli samostatné adaptačné zosilnenia $\alpha_1$ a $\alpha_2$ pre 
 
 
 
+
+% \newpage
 
 \section*{Otázky a úlohy}
 \addcontentsline{toc}{section}{Otázky a úlohy}
