@@ -577,6 +577,8 @@ teda
         \Theta_2^\star &= \frac{b_m}{b_0}
     \end{align}
 \end{subequations}
+potom by sa URO a RM zhodovali.
+
 Rovnice \eqref{prpodmz} sú podmienkami zhody. Nie len, že existujú, ale sú aj riešiteľné. To znamená, že má význam pokúšať sa adaptovať zákon riadenia s daným cieľom, pretože je možné teoreticky dosiahnuť zhodu medzi URO a referenčným modelom.
 
 
@@ -631,7 +633,7 @@ Nájdime prvú citlivostnú funkciu $\frac{\partial e}{\partial \Theta_1}$.
 \begin{subequations}
     \begin{align}
         \frac{\partial e}{\partial \Theta_1} &= b_0 \Theta_2 \, (-1)\left( s + a_0 - b_0 \Theta_1 \right)^{-2} (-1) b_0 r \\
-        \frac{\partial e}{\partial \Theta_1} &= b_0\, \left( s + a_0 - b_0 \Theta_1 \right)^{-1} \left( \frac{b_0}{\left( s + a_0 - b_0 \Theta_1 \right)} r \right) \\
+        \frac{\partial e}{\partial \Theta_1} &= b_0\, \left( s + a_0 - b_0 \Theta_1 \right)^{-1} \left( \frac{b_0 \Theta_2}{\left( s + a_0 - b_0 \Theta_1 \right)} r \right) \\
         \frac{\partial e}{\partial \Theta_1} &=  \frac{b_0}{\left( s + a_0 - b_0 \Theta_1 \right)}\, y
     \end{align}
 \end{subequations}
@@ -642,7 +644,7 @@ Nájdime prvú citlivostnú funkciu $\frac{\partial e}{\partial \Theta_1}$.
         \frac{\partial e}{\partial \Theta_2} &=  \frac{b_0}{\left( s + a_0 - b_0 \Theta_1 \right)}\, r
     \end{align}
 \end{subequations}
-To bolo ľahké. Akokoľvek, nájdené citlivostné fukcie nevieme realizovať, teda nevieme ich použiť v zákone adaptácie. Pretože obsahujú neznáme parametre riadeného systému, parametre $a_0$ a $b_0$. Aproximujme citlivostné funkcie. Ak $\alpha$ v zákone adaptácie je ľubovolné číslo, potom aj $\alpha b_0$ je ľubovolné číslo. Teda hodnotu $b_0$ stačí nahradiť len príslušným znamienkom (potrebujeme poznať znamienko parametra $b_0$). Ďalej, polynóm $\left( s + a_0 - b_0 \Theta_1 \right)$ je charakteristickým polynómom URO. To znamená, že ak by sa URO zhodoval s referenčným modelom, potom by pre tento charakteristický polynóm platilo $\left( s + a_0 - b_0 \Theta_1^\star \right)$. To ale znamená, že by sa zhodoval s charaketristickým polynómom referenčného modelu. Ak predpokladáme, že URO bude aspoň blízko referenčnému modelu počas celej doby, potom je charakteristický polynóm referenčného modelu vhodnou aproximáciou neznámeho polynómu v citlivostných funkciách. Z uvedeného plynie, že aproximácie citlivostných funkcií by mohli byť:
+To bolo ľahké. Akokoľvek, nájdené citlivostné fukcie nevieme realizovať, teda nevieme ich použiť v zákone adaptácie. Pretože obsahujú neznáme parametre riadeného systému, parametre $a_0$ a $b_0$. Aproximujme citlivostné funkcie. Ak $\alpha$ v zákone adaptácie je ľubovolné číslo, potom aj $\alpha\, b_0$ je ľubovolné číslo. Teda hodnotu $b_0$ stačí nahradiť len príslušným znamienkom (potrebujeme poznať znamienko parametra $b_0$). Ďalej, polynóm $\left( s + a_0 - b_0 \Theta_1 \right)$ je charakteristickým polynómom URO. To znamená, že ak by sa URO zhodoval s referenčným modelom, potom by pre tento charakteristický polynóm platilo $\left( s + a_0 - b_0 \Theta_1^\star \right)$. To ale znamená, že by sa zhodoval s charaketristickým polynómom referenčného modelu. Ak predpokladáme, že URO bude aspoň blízko referenčnému modelu počas celej doby, potom je charakteristický polynóm referenčného modelu vhodnou aproximáciou neznámeho polynómu v citlivostných funkciách. Z uvedeného plynie, že aproximácie citlivostných funkcií by mohli byť:
 \begin{subequations}
     \begin{align}
         \frac{\partial e}{\partial \Theta_1} &\approx  \frac{1}{\left( s + a_m \right)}\, y \\
