@@ -11,9 +11,12 @@ mpl.rcParams['figure.dpi'] = 120
 # mpl.rcParams['mathtext.fontset'] = 'stix'
 
 
-mpl.rcParams['font.family'] = 'serif'
+# mpl.rcParams['font.family'] = 'serif'
 
-#mpl.rcParams['text.usetex'] = False
+mpl.rcParams['mathtext.fontset'] = 'cm'
+mpl.rcParams['font.family'] ='Latin Modern Roman'
+
+# mpl.rcParams['text.usetex'] = False
 mpl.rcParams['text.usetex'] = True
 mpl.rcParams['text.latex.unicode'] = True
 mpl.rcParams['text.latex.preamble'] = '\usepackage[T1]{fontenc}, \usepackage{lmodern}'
