@@ -16,9 +16,3 @@ Mimochodom, pre spúšťanie jupyter notebookov umiestnených v GitHub repozitá
 ## Overleaf
 
 Práca s LaTeX-om on-line https://www.overleaf.com/
-
-
-
-##
-
-![instalogo](/misc/instalogo.png) [@fei.stuba](https://www.instagram.com/fei.stuba/)
