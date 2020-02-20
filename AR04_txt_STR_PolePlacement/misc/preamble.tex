@@ -1,0 +1,144 @@
+\usepackage[slovak]{babel}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[left=4cm,
+			right=4cm,
+			top=2.1cm,
+			bottom=2.6cm,
+			footskip=7.5mm,
+			twoside,
+			marginparwidth=3.5cm,
+			%showframe,
+			]{geometry}
+
+\usepackage{graphicx}
+\usepackage{xcolor}
+
+% ------------------------------
+
+\usepackage{lmodern}
+
+\usepackage[tt={oldstyle=false,proportional=true,monowidth}]{cfr-lm}
+
+% ------------------------------
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{dcolumn}
+
+\usepackage{natbib}
+
+\usepackage[singlelinecheck=true]{subfig}
+
+
+% ------------------------------
+
+
+\usepackage{sectsty}
+\allsectionsfont{\sffamily}
+
+
+\usepackage{titlesec}
+\titleformat{\paragraph}[hang]{\sffamily  \bfseries}{}{0pt}{}
+\titlespacing*{\paragraph}{0mm}{3mm}{1mm}
+
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\sffamily {\bfseries \thepage}\ | {\scriptsize\oznacenieCasti}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+\pagestyle{plain}
+
+
+% ------------------------------
+
+
+\makeatletter
+
+	\def\@seccntformat#1{\protect\makebox[0pt][r]{\csname the#1\endcsname\hspace{5mm}}}
+
+	\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+	\hbox{}
+	\vspace*{\fill}
+	\begin{center}
+	\phantom{}
+	\end{center}
+	\vspace{\fill}
+	\thispagestyle{empty}
+	\newpage
+	\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
+	\newcommand\figcaption{\def\@captype{figure}\caption}
+	\newcommand\tabcaption{\def\@captype{table}\caption}
+
+\makeatother
+
+
+% ------------------------------
+
+
+\def\naT{\mathsf{T}}
+
+\hyphenpenalty=6000
+\tolerance=6000
+
+
+% ------------------------------
+
+
+\usepackage[pdfauthor={MT},
+			pdftitle={AR},
+			pdfsubject={},
+			pdfkeywords={},
+			hidelinks,
+			breaklinks,
+			]{hyperref}
+
+
+
+% ------------------------------
+
+\usepackage{enumitem}
+
+
+
+
+
+\usepackage[titles]{tocloft}
+
+\setlength{\cftsecindent}{-12mm}
+\setlength{\cftsecnumwidth}{12mm}
+\renewcommand{\cftsecpresnum}{\hfill}
+\renewcommand{\cftsecaftersnum}{\hspace{4mm}}
+
+\setlength{\cftsubsecindent}{-12mm}
+\setlength{\cftsubsecnumwidth}{12mm}
+\renewcommand{\cftsubsecpresnum}{\hfill}
+\renewcommand{\cftsubsecaftersnum}{\hspace{4mm}}
+
+\setlength{\cftsubsubsecindent}{-12mm}
+\setlength{\cftsubsubsecnumwidth}{12mm}
+\renewcommand{\cftsubsubsecpresnum}{\hfill}
+\renewcommand{\cftsubsubsecaftersnum}{\hspace{4mm}}
+
+\renewcommand{\cftsecpagefont}{\lstyle \bfseries}
+\renewcommand{\cftsubsecpagefont}{\lstyle}
+\renewcommand{\cftsubsubsecpagefont}{\lstyle}
+
+
+% ------------------------------
+
+
+
+
+
+\graphicspath{{fig/}}

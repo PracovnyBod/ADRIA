@@ -1,0 +1,444 @@
+\documentclass[a4paper, 10pt, ]{article}
+
+\input{misc/preamble.tex}
+
+\def\oznacenieCasti{AR04 - LS2020}
+
+
+
+
+
+\begin{document}
+
+
+
+
+
+\fontsize{12pt}{22pt}\selectfont
+
+\centerline{\textsf{Adaptívne riadenie} \hfill \textsf{\oznacenieCasti}}
+
+\fontsize{18pt}{22pt}\selectfont
+
+
+
+
+
+\begin{flushleft}
+	\textbf{\textsf{O samonastavujúcom sa regulátore,\newline časť druhá}}
+\end{flushleft}
+
+
+
+
+
+\normalsize
+
+\bigskip
+
+\tableofcontents
+
+\bigskip
+
+\vspace{18pt}
+
+
+
+
+\noindent
+Zákon riadenia (štruktúra riadenia) samonastavujúceho sa regulátora v~uvažovanom konkrétnom príklade je v tvare
+\begin{subequations} \label{zakonRiadenia}
+	\begin{align}
+		R(z^{-1})u(k) & = T(z^{-1})r(k) - S(z^{-1})y(k) \\
+		u(k) & = \frac{T(z^{-1})}{R(z^{-1})}r(k) - \frac{S(z^{-1})}{R(z^{-1})}y(k)
+	\end{align}
+\end{subequations}
+kde $R$, $S$ a $T$ sú polynómy v tvare
+\begin{subequations}
+	\begin{align}
+		R(z^{-1}) & = 1 + r_1z^{-1} + r_2z^{-2} + \ldots +  r_{n_r}z^{-n_r}\\
+		S(z^{-1}) & = s_0 + s_1z^{-1} + s_2z^{-2} + \ldots +  s_{n_s}z^{-n_s} \\
+		T(z^{-1}) & = t_0 + t_1z^{-1} + t_2z^{-2} + \ldots +  t_{n_t}z^{-n_t}
+	\end{align}
+\end{subequations}
+Ako už bolo uvedené, koeficienty polynómov sú parametrami regulátora. Počet parametrov regulátora závisí od stupňa jednotlivých polynómov. Pre uvažovaný konkrétny príklad sú stupne polynómov nasledovné: $n_r = 1$, $n_s = 1$ a $n_t = 0$. Potom počet parametrov regulátora je $n_r + n_s + 1 + n_t + 1$. Teda $1 + 1 + 1 + 0 + 1 = 4$. Zákon riadenia je možné zapísať aj v tvare diferenčnej rovnice:
+\begin{equation}
+	u(k) =  - r_1 u(k-1) - s_0 y(k) - s_1 y(k-1) + t_0 r(k)
+\end{equation}
+
+
+
+\section{Metóda rozmiestňovania pólov}
+
+Uvažujme zákon riadenia v tvare \eqref{zakonRiadenia}, ktorého parametre budeme počítať pomocou metódy rozmiestňovania pólov. Najprv odvodíme rovnicu uzavretého obvodu (URO).
+
+
+
+
+\subsection{Rovnica URO}
+
+
+Model riadeného systému je
+\begin{equation} \label{modelRiadSys}
+	A(z^{-1})y(k)
+	=
+		B(z^{-1})u(k)
+\end{equation}
+Dosadením \eqref{zakonRiadenia} do \eqref{modelRiadSys} máme
+\begin{equation}
+	A(z^{-1})y(k) = B(z^{-1}) \left( \frac{T(z^{-1})}{R(z^{-1})}r(k) - \frac{S(z^{-1})}{R(z^{-1})}y(k) \right)
+\end{equation}
+Úpravou
+\begin{subequations}
+	\begin{align}
+		A y(k) &= \frac{BT}{R} r(k) - \frac{BS}{R} y(k) \\
+		RA y(k) &= BT r(k) - BS y(k)\\
+		\left( RA + BS \right) y(k) &= BT r(k) \\
+		y(k) &= \frac{BT}{\left( AR + BS \right)} r(k) \\
+		\frac{y(k)}{r(k)} &= \frac{BT}{\left( AR + BS \right)}
+	\end{align}
+\end{subequations}
+Charakteristický polynóm uzavretého regulačného obvodu je:
+\begin{equation}
+	A(z^{-1})R(z^{-1}) + B(z^{-1})S(z^{-1})
+\end{equation}
+
+
+Nech želaný polynóm je
+\begin{equation}
+	P(z^{-1})  = 1 + p_1z^{-1} + p_2z^{-2} + \ldots +  p_{n_p}z^{-n_p}
+\end{equation}
+potom diofantická rovnica, z ktorej sa vypočítajú koeficienty polynómov $R$ a $S$ je
+\begin{equation} \label{prvaDiofantRovn}
+	A(z^{-1})R(z^{-1}) + B(z^{-1})S(z^{-1})  = 	P(z^{-1})
+\end{equation}
+
+
+
+
+V tomto prípade máme
+\begin{subequations}
+	\begin{align}
+		A & = 1 + a_1z^{-1} + a_2z^{-2} \\
+		B & = b_1z^{-1} + b_2z^{-2} \\
+		R & = 1 + r_1z^{-1} \\
+		S & = s_0 + s_1z^{-1}
+	\end{align}
+\end{subequations}
+a nech želaný polynóm pre tento prípad je
+\begin{equation}
+	\begin{split}
+		P & = 1 + p_1z^{-1} + p_2z^{-2}
+	\end{split}
+\end{equation}
+Diofantická rovnica pre tento prípad
+\begin{equation}
+	\begin{split}
+		& \left( 1 + a_1z^{-1} + a_2z^{-2} \right) \left( 1 + r_1z^{-1} \right) + \left( b_1z^{-1} + b_2z^{-2} \right) \left( s_0 + s_1z^{-1} \right) \\
+		&= 1 + p_1z^{-1} + p_2z^{-2}
+	\end{split}
+\end{equation}
+Roznásobením
+\begin{equation}
+	\begin{split}
+		& 1+r_1z^{-1}+a_1z^{-1} + a_1r_1z^{-2}+a_2z^{-2}+a_2r_1z^{-3} \\
+		&+ b_1s_0z^{-1}+b_1s_1z^{-2} + b_2s_0z^{-2}+b_2s_1z^{-3} \\
+		&= 1 + p_1z^{-1} + p_2z^{-2}
+	\end{split}
+\end{equation}
+Na ľavej strane ponecháme členy, v ktorých sa nachádzajú neznáme koeficienty polynómov zo zákona adaptácie a ostatné členy presunieme na pravú stranu
+\begin{equation}
+	\begin{split}
+		& r_1z^{-1} + a_1r_1z^{-2}+a_2r_1z^{-3} + b_1s_0z^{-1}+b_1s_1z^{-2} + b_2s_0z^{-2}+b_2s_1z^{-3} \\
+		&= 1 + p_1z^{-1} + p_2z^{-2} - 1 -a_1z^{-1} -a_2z^{-2}
+	\end{split}
+\end{equation}
+Po úprave
+\begin{equation}
+	\begin{split}
+		& \left({ r_1 + b_1s_0 }\right) z^{-1} + \left({ a_1r_1 +b_1s_1 + b_2s_0 }\right) z^{-2} + \left({ a_2r_1 +b_2s_1 }\right) z^{-3} \\
+		&= \left({ p_1 -a_1 }\right) z^{-1} + \left({p_2 -  a_2 }\right) z^{-2}
+	\end{split}
+\end{equation}
+Porovnaním koeficientov pri rovnakých mocninách získame rovnice
+\begin{subequations}
+	\begin{align}
+		 r_1 + b_1 s_0  &= p_1 - a_1 \\
+		 a_1 r_1 + b_2 s_0 + b_1 s_1  &= p_2 -  a_2 \\
+		 a_2 r_1  + b_2 s_1  &= 0
+	\end{align}
+\end{subequations}
+V maticovom zápise:
+\begin{equation}
+	\begin{bmatrix} 1 & b_1 & 0 \\ a_1 & b_2 & b_1 \\ a_2 &   0 & b_2 \end{bmatrix}
+	\begin{bmatrix} r_1 \\ s_0 \\ s_1  \end{bmatrix}
+	=
+	\begin{bmatrix} p_1 - a_1 \\ p_2 - a_2 \\ 0 \end{bmatrix}
+\end{equation}
+
+
+
+
+
+
+Maticový zápis vyplývajúci z diofantickej rovnice v prípade, keď stupne polynómov $R$, $S$ a $P$ sú všeobecné, je v tvare
+\begin{equation} \label{VelkaDiofanRov}
+	\begin{bmatrix}
+		   1 &      0 &      0 & \cdots &       0 &     b_1 &      0 &      0 & \cdots &       0 \\
+	 	 a_1 &      1 &      0 & \cdots &       0 &     b_2 &    b_1 &      0 & \cdots &       0 \\
+	 	 a_2 &    a_1 &      1 & \cdots &       0 &     b_3 &    b_2 &    b_1 & \cdots &       0 \\
+      \vdots & \vdots & \vdots & \ddots &  \vdots &  \vdots & \vdots & \vdots & \ddots &  \vdots \\
+     a_{n_a} & \vdots & \vdots & \cdots &       1 & b_{n_b} & \vdots & \vdots & \cdots &     b_1 \\
+           0 & \ddots & \vdots & \cdots &     a_1 &       0 & \ddots & \vdots & \cdots &  \vdots \\
+      \vdots & \vdots & \ddots & \cdots &  \vdots &  \vdots & \vdots & \ddots & \cdots &  \vdots \\
+      \vdots & \vdots & \vdots & \ddots &  \vdots &  \vdots & \vdots & \vdots & \ddots &  \vdots \\
+           0 &      0 &      0 & \cdots & a_{n_a} &       0 &      0 &      0 & \cdots & b_{n_b}
+	\end{bmatrix}
+	\begin{bmatrix} r_1 \\ r_2 \\ r_2 \\ \vdots \\ r_{n_r} \\ s_0 \\ s_1 \\ s_2 \\ \vdots \\ s_{n_s} \end{bmatrix}
+	=
+	\begin{bmatrix} p_1 - a_1 \\ p_2 - a_2 \\ \vdots \\ 0 \\ \vdots \\ 0 \end{bmatrix}
+\end{equation}
+
+
+Takáto sústava rovníc bude mať riešenie ak
+\begin{subequations}
+	\begin{align}
+		 n_r &= n_b - 1 \\
+		 n_s &= n_a - 1
+	\end{align}
+\end{subequations}
+
+
+
+
+
+
+
+\subsection{Polynóm $T$}
+
+\bigskip
+
+Zatiaľ sme vypočítali koeficienty polynómov $R$ a $S$. Otázkou ostáva, ako určiť polynóm $T$. Je potrebné určiť jeho stupeň a vypočítať koeficienty. V úvode sme \uv{zvolili}, že stupeň polynómu $T$ je $n_t = 0$. Teda jediným koeficientom bude $t_0$. Ukážme teraz, že jednou z možností, ako určiť polynóm $T$, je žiadať nulovú regulačnú odchýlku v ustálenom stave. Dostaneme tak polynóm $T$ práve nultého stupňa a aj výpočet koeficientu $t_0$.
+
+Keďže charakteristická rovnica URO je rovnaká ako želaný polynóm $P$, je možné písať rovnicu uzavretého obvodu v tvare
+\begin{equation}
+	y(k) = \frac{BT}{P} r(k)
+\end{equation}
+Aby platilo
+\begin{equation}
+	y(\infty) = r(\infty)
+\end{equation}
+musí byť
+\begin{subequations}
+	\begin{align}
+		BT &= P \\
+		T &= \frac{P}{B}
+	\end{align}
+\end{subequations}
+A keďže \uv{donekonečna} je v diskrétnej doméne \uv{dojednotky}, teda $z = 1$, potom
+\begin{equation}
+	T = \frac{P(1)}{B(1)}
+\end{equation}
+čo v tomto prípade znamená
+\begin{equation}
+	T(z^{-1}) = \frac{1 + p_1 + p_2}{b_1 + b_2} = t_0
+\end{equation}
+
+
+
+
+
+\subsubsection{Alternatívy spôsob určenia polynómu $T$}
+
+\paragraph{Alternatíva 1}
+
+Ďalší spôsob ako určiť koeficienty polynómu $T$ je nasledovný. Nájdeme obraz referenčného signálu tak, že jeho časovú formu pretransformujeme pomocou Z-transformácie. Totiž v mnohých prípadoch je možné dopredu určiť časový priebeh referenčného signálu a~navyše sa referenčný signál skladá zo skokov, rámp a~podobných, pomocou Z-transformácie, ľahko transformovateľných signálov. Obraz referenčného signálu je
+\begin{equation}
+	\left\{ r(t) \right\}_q = \frac{F \left( q^{-1} \right)}{G \left( q^{-1} \right)}
+\end{equation}
+Tento obraz použijeme vo vzťahu pre regulačnú odchýlku:
+\begin{equation}
+	e = r - y = r - \frac{BT}{P}r = \frac{F}{G} - \frac{BT}{P}\frac{F}{G} = \frac{F(P - BT)}{GP} = \frac{FN}{P}
+\end{equation}
+kde sme označili
+\begin{equation}
+	\frac{P - BT}{G} = N
+\end{equation}
+Z tohto označenia môžeme písať diofantickú rovnicu, ktorá doplní \eqref{prvaDiofantRovn}, a vznikne tak sústava.
+\begin{equation}
+	GN + BT = P
+\end{equation}
+Z tejto rovnice sa dá určiť aj polynóm vyššieho ako nultého stupňa.
+
+
+
+\paragraph{Alternatíva 2}
+
+Ďalší spôsob ako určiť koeficienty polynómu $T$ je takýto: ak bude polynóm $T$~obrátenou hodnotou polynómu $B$, teda $T = 1/B$, zaistí sa tak nie len nulová regulačná odchýlka v ustálenom stave, ale aj to, že polynóm $B$ nebude mať žiadny vplyv na dynamiku URO. Dynamika URO bude daná len želaným charakteristickým polynómom $P$, takto:
+\begin{equation}
+	y(t) = \frac{1}{P}r(t)
+\end{equation}
+Zákon riadenia potom môžeme uvažovať v tvare
+\begin{equation}
+	Ru(t) = \frac{1}{B}r(t) - Sy(t) \quad \Rightarrow \quad r = BRu + BSy
+\end{equation}
+Ale ak $B = q^{-D}\tilde{B}$, tak aby sme mohli napísať predchádzajúcu rovnicu musíme dať $q^{-D}$ na druhú stranu k $r$. Teda:
+\begin{equation}
+	 rq^{D} = \tilde{B}Ru + \tilde{B}Sy
+\end{equation}
+Ak potom vyjadríme akčný zásah, je zrejmé, že bude závisieť od budúcich hodnôt referenčného signálu $u(t) = r(t + D)-\ldots$ Toto však nemusí byť prekážkou, pretože v mnohých prípadoch je referenčný signál dopredu známy.
+
+
+
+
+\subsection{Súhrn pre tento prípad}
+
+Zhrňme výpočty potrebné pre určenie parametrov regulátora pre tento prípad.
+
+Hodnoty parametrov modelu $a_1$, $a_2$, $b_1$ a $b_2$ sú po identifikácii (v danej perióde vzorkovania) známe a prirodzene sú známe aj hodnoty koeficientov želaného polynómu $P$. Hodnoty parametrov regulátora získame riešením
+\begin{equation}
+	\begin{bmatrix} 1 & b_1 & 0 \\ a_1 & b_2 & b_1 \\ a_2 &   0 & b_2 \end{bmatrix}
+	\begin{bmatrix} r_1 \\ s_0 \\ s_1  \end{bmatrix}
+	=
+	\begin{bmatrix} p_1 - a_1 \\ p_2 - a_2 \\ 0 \end{bmatrix}
+\end{equation}
+a
+\begin{equation}
+		t_0 = \frac{1 + p_1 + p_2}{b_1 + b_2}
+\end{equation}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Rýchlostný algoritmus metódy rozmiestňovania pólov}
+
+Keďže ide o rýchlostný algoritmus, je potrebné vyjadriť prírastok akčnej veličiny:
+\begin{align}
+	 \Delta u(t) &= u(t) - u(t-1) = (1 - q^{-1})u(t) \\
+	 u(t) &= \frac{\Delta u(t)}{(1 - q^{-1})}
+\end{align}
+Riadený systém a jeho ARX model (s nulovým šumom):
+\begin{equation}
+	Ay(t) = Bu(t)
+\end{equation}
+do ktorého dosadíme $u(t)$ a upravíme\ldots
+\begin{subequations}
+	\begin{align}
+		 Ay(t) &= B\frac{\Delta u(t)}{(1 - q^{-1})} \\
+		 (1 - q^{-1})Ay(t) &= B\Delta u(t)
+	\end{align}
+\end{subequations}
+Zákon riadenia uvažujeme v tvare:
+\begin{equation}
+	\Delta u(t) = \frac{S}{R}(r(t) - y(t))
+\end{equation}
+Rovnica URO potom bude mať tvar
+\begin{subequations}
+	\begin{align}
+		 (1 - q^{-1})Ay(t) &= B\Delta u(t) \\
+		 (1 - q^{-1})Ay(t) & = B \frac{S}{R}(r(t) - y(t)) \\
+		 (1 - q^{-1})ARy(t) &= BS(r(t) - y(t)) \\
+		 (1 - q^{-1})ARy(t) &= BSr(t) - BSy(t) \\
+		 ((1-q^{-1})AR + BS) y(t) &= BSr(t) \\
+		 y(t) &= \frac{BS}{(1-q^{-1})AR + BS}r(t)
+	\end{align}
+\end{subequations}
+Takže charakteristický polynóm je
+\begin{equation}
+	P = \left( 1 - q^{-1} \right) AR + BS
+\end{equation}
+Ale veď potom
+\begin{equation}
+	BS = P - \left( 1 - q^{-1} \right)AR
+\end{equation}
+a tak rovnica URO:
+\begin{subequations}
+	\begin{align}
+		y(t) &= \frac{P - (1-q^{-1})AR}{P}r(t) \\
+		y(t) &=\left({\frac{P}{P} -  \frac{(1-q^{-1})AR}{P}}\right)r(t) \\
+		y(t) &= r(t) -  \frac{(1-q^{-1})AR}{P}r(t)
+	\end{align}
+\end{subequations}
+Ak sa teraz opýtame aká bude regulačná odchýlka v ustálenom stave t.j. $y(\infty)$, $r(\infty)$ a čo je najdôležitejšie $q = 1$ potom:
+\begin{equation}
+	\begin{split}
+		& y(\infty) =r(\infty) -  \frac{(1-1)AR}{P}r(\infty)
+		\\& y(\infty) =r(\infty)
+	\end{split}
+\end{equation}
+Teda regulačná odchýlka v ustálenom stave bude nulová (pretože sa zhodujú hodnoty referenčného signálu a~výstupnej veličiny).
+
+
+
+
+
+
+
+
+
+
+
+\section{Cvičenie tretie}
+\label{cvictretie}
+
+
+\begin{enumerate}[leftmargin=0pt, labelsep=4mm, itemsep=0pt]
+
+	\item Zrealizujte (v simulačnom prostredí) samonastavujúci sa regulátor tak ako to predpokladá uvažovaný konkrétny príklad.
+
+	Nech želaným charakteristickým polynómom (pre uvažovaný konkrétny príklad) je $P(z^{-1}) = 1 + p_1z^{-1} + p_2z^{-2}$ pričom $p_1 = -1,6$ a~$p_2 = 0,64$, teda dvojnásobný koreň $z_{1,2} = 0,8$.
+
+	Alternatívne, nech v želanom charakteristickom je $p_1 = -0,8$ a~$p_2 = 0,16$, teda dvojnásobný koreň $z_{1,2} = 0,4$.
+
+	Pozn: pre uvažovaný príklad sa odporúča perióda vzorkovania $T_{vz} = 0,1$ [s].
+
+\end{enumerate}
+
+
+
+
+
+
+
+
+
+\section{Otázky a úlohy}
+% \addcontentsline{toc}{section}{Otázky a úlohy}
+
+
+
+\begin{enumerate}[leftmargin=0pt, labelsep=4mm, itemsep=0pt]
+
+	\item Modelom riadeného systému je ARX model. Zákon riadenia má tvar $R(z^{-1}) u(k) =  T(z^{-1}) r(k) -  S(z^{-1}) y(k)$. Nájdite charakteristický polynóm URO.
+
+	\item Modelom riadeného systému je ARX model. Zákon riadenia má tvar $ u(k) =  \Delta u(k) / (1 - z^{-1})$, kde
+	\begin{equation*}
+		\Delta u(k) = \frac{S(z^{-1})}{R(z^{-1})} (r(k) - y(k))
+	\end{equation*}
+		Nájdite charakteristický polynóm URO.
+
+	\item Stručne vysvetlite výpočet parametrov regulátora metódou pole-placement.
+
+	\item Vysvetlite podstatu metód návrhu polynómu $T(z^{-1})$ pri STR.
+
+\end{enumerate}
+
+
+
+
+
+
+
+\end{document}
