@@ -23,8 +23,8 @@ def fcn_simSch1(t_start, T_s, finalIndex, sig_dummy_ext):
     # Parametre riadeneho systemu
 
     A = np.array([[0, 1], [-2.6916, -2.7423]])
-    b = np.array([[0], [0.1664 * 21.3809]])
-    c = np.array([[1], [0]])
+    b = np.array([[0], [1]])
+    c = np.array([[3.5578], [0.1664]])
 
     #----------------------------------------------------
     # Do pola t_log sa bude logovat cas. Pole ma finalIndex
