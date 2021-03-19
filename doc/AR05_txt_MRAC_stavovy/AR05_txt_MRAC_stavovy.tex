@@ -1025,12 +1025,12 @@ a to samozrejme pri $\Delta u(t) = 0$. V tomto „novom“ ustálenom stave, oč
 
 Toto je lineárny dynamický systém, ktorý je možné zapísať v tvare prenosovej funkcie
 \begin{align}
-    \frac{\Delta y(s)}{\Delta u(s)} = \frac{k_p}{s^2 + a_1 s + a_0}
+    \frac{\Delta y(s)}{\Delta u(s)} = \frac{b_0}{s^2 + a_1 s + a_0}
 \end{align}
 kde
 \begin{subequations}
     \begin{align}
-        k_p &= \frac{1}{m\ l^2} \\
+        b_0 &= \frac{1}{m\ l^2} \\
         a_0 &= \frac{g}{l} \cos \left( y_{PB} \right) = \frac{g}{l} \cos \left( \arcsin \left( \frac{1}{ \left(m g l\right)} u_{PB} \right) \right) \\
         a_1 &= \frac{\beta}{m\ l^2}
     \end{align}
@@ -1069,7 +1069,7 @@ Zvoľme pracovné body
 Pre prvý praconý bod $\left( u_{PB1}, y_{PB1} \right)$ vypočítajme aj parametre lineárneho modelu (platného len v okolí pracovného bodu)
 \begin{subequations} \label{parsysdemo}
     \begin{align}
-        k_p &= 1 \\
+        b_0 &= 1 \\
         a_0 &= 8,44 \\
         a_1 &= 3,13
     \end{align}
@@ -1143,13 +1143,366 @@ Zároveň si vzhľadom na uvedené dovoľujeme zdôrazniť dostupnosť stavovýc
 
 \subsection{Návrh adaptívneho riadiaceho systému}
 
-\ldots sa pre túto chvíľu ponecháva na čitateľa\ldots
+Model riadeného systému sa uvažuje v tvare \eqref{stavoplinkyv}. Ide o SISO systém 2. rádu, kde prvá stavová veličina je zároveň aj výstupnou veličinou a znamienko jediného nenulového prvku vektora $b$, teda parametra $b_0$, je $+$ (kladné). Na parametre riadeného systému opísaného v stavovom priestore sa tu budeme odvolávať klasickým označovaním $A$, $b$ a prípadne $c^\naT$.
+
+
+
+Pre uvedený riadený systém navrhnime adaptívne riadenie s referenčným modelom so stavovou štruktúrou zákona riadenia, pričom referenčný model nech je v tvare
+\begin{subequations}
+	\begin{align}
+	\begin{bmatrix}
+	 		\dot x_{1m}  \\
+	 		\dot x_{2m}
+	 \end{bmatrix}
+	 &=
+	 \begin{bmatrix}
+	 		0 & 1 \\
+	 		-2 & -3
+	 \end{bmatrix}
+	 \begin{bmatrix}
+	 		x_{1m}  \\
+	 		x_{2m}
+	 \end{bmatrix}
+	 +
+	 \begin{bmatrix}
+	 		0  \\
+	 		2
+	 \end{bmatrix}
+	 r
+	 \label{stavovyOpisRM2R_priklad2}
+	\end{align}
+\end{subequations}
+
+
+
+Je zrejmé, že zákon riadenia má v tomto príklade tvar
+\begin{equation} \label{stavZakRiad2r_priklad2}
+	u
+	=
+	\begin{bmatrix} k_1 & k_2 \end{bmatrix}
+	\begin{bmatrix} x_1 \\ x_2 \end{bmatrix}
+	+
+	l \, r
+\end{equation}
+kde $k_1$, $k_2$, $l$ sú neznáme parametre regulátora (zosilnenia regulátora), ktoré sa budú adaptovať tak aby sa priebeh stavových veličín uzavretého regulačného obvodu zhodoval s priebehom stavových veličín referenčného modelu.
+
+Ideálne parametre zákona riadenia sú vo všeobecnosti
+\begin{align}
+    \begin{bmatrix} k_1^\star & k_2^\star \end{bmatrix}
+    &=
+    \texttt{pinv}(b) \left( A_m - A \right)
+    \\
+    l^\star &= \texttt{pinv}(b)
+\end{align}
+
+
+
+
+
+Všeobecný tvar zákona adaptácie je
+\begin{equation}
+	\dot \Theta = - \texttt{sign}(b_0) \Gamma e^\naT P q \, \omega
+\end{equation}
+kde $P = P^\naT > 0$ spĺňa Lyapunovovu rovnicu $ A_m^\naT P + P A_m = - Q$ kde $Q = Q^\naT > 0$ je ľubovolná symetrická kladne definitná matica rovnakého rozmeru ako $A_m$. Zvoľme napríklad
+\begin{align*}
+	 Q &= \begin{bmatrix} 1 & 0\\ 0& 1 \end{bmatrix}
+\end{align*}
+Maticu $P$ získame riešením Lyapunovovej rovnice nástrojom z Python knižnice SciPy, metódou \lstinline{linalg.solve_continuous_lyapunov()}. Výsledok:
+\begin{equation}
+	P = \begin{bmatrix} 1,25 &  0,25 \\   0,25  &  0,25 \end{bmatrix}
+\end{equation}
+
+Vektor $q$ má len posledný prvok rovný jednej, ostatné sú nulové, a rozmer má rovnaký ako vektor $b$, teda
+\begin{equation}
+	q = \begin{bmatrix} 0 \\ 1 \end{bmatrix}
+\end{equation}
+
+Výsledkom vynásobenia vektora signálov $e^\naT = \begin{bmatrix} e_1 & e_2 \end{bmatrix}$, matice $P$ a vektora $q$ je skalár (jednoducho signál s rozmerom $1 \times 1$), ktorý keď sa vynásobý so  signálnym vektorom $\omega$, ktorý obsahuje tri signály
+\begin{equation}
+	\omega = \begin{bmatrix} x_1 \\ x_2 \\ r \end{bmatrix}
+\end{equation}
+tak výsledkom je opäť stĺpcový vektor obsahujúci tri signály.
+
+Adaptujeme tri parametre a výstupom zákona adaptácie sú derivácie týchto troch parametrov
+\begin{equation}
+	\dot \Theta = \begin{bmatrix} \dot{k}_1 \\ \dot{k}_2 \\ \dot{l} \end{bmatrix}
+\end{equation}
+Preto ak matica $\Gamma^{-1} = \left( \Gamma^{-1} \right)^\naT > 0$ je ľubovolná, \emph{diagonálna}, kladne definitná, potom je taká aj matica $\Gamma$ a v tomto prípade musí mať rozmer $3\times3$. Zvoľme
+\begin{equation}
+	\Gamma =
+    \begin{bmatrix}
+		24000 & 0 & 0 \\
+		0 & 400 & 0 \\
+		0 & 0 & 12000
+	\end{bmatrix}
+\end{equation}
+
+
+
+Pre získanie okamžitých hodnôt parametrov zákona riadenia je potrebné integrovať výstup zákona adaptácie
+\begin{equation}
+	\Theta = \int \dot \Theta \, \textrm{d}t
+\end{equation}
+
+
+
+
+\subsubsection{Vytvorenie predstavy o nastavení rýchlosti adaptácie}
+
+
+Majme nejakú predstavu o riadenom systéme. V realite azda vždy budeme mať. Tu sa to teraz myslí, tak, že máme aspoň nejakú predstavu o parametroch lineárneho modelu skutočného riadeného systému (nelineárneho kyvadla). Použime tie isté parametre, aké sme už použili pre ilustračné účely, teda hodnoty parametrov \eqref{parsysdemo}. Zostavme simulačnú schému MRAC stavového avšak s tým, že riadeným systémom je priamo tento lineárny model. Umožní nám to vytvoriť si predstavu o tom, ako zvoliť maticu $\Gamma$ tak, aby rýchlosť adaptácie bola prijateľná.
+
+Pre začiatok, uvažujme všetky váhy (prvky na diagonále) v $\Gamma$ rovnaké, o veľkosti „aby sa niečo dialo“. V tomto prípade je to
+\begin{equation*}
+    \Gamma = \texttt{diag}
+    \left(
+    \begin{bmatrix}
+        1000 & 1000 & 1000
+    \end{bmatrix}
+    \right)
+\end{equation*}
+a zároveň uvažujeme harmonický signál s relatívne nízkou frekvenciou pre najjednoduchší možný prípad čo sa „obtiažnosti adaptácie“ týka. Výsledok je na obr.~\ref{figsc_ar05_Kyvadlo_ep2_1}.
+
+
+
+
+\begin{figure}[!t]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep2_1.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep2_1}
+
+    \vspace{-2mm}
+
+\end{figure}
+
+
+
+
+\begin{figure}[!b]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep2_2.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep2_2}
+
+    \vspace{-2mm}
+
+\end{figure}
+
+
+
+
+Je zrejmé, že je potrebné ladiť $\Gamma$ tak, aby rýchlosť zmeny adaptovaných parametrov (alebo aspoň väčšiny z nich) bola (aspoň na začiatku) čo najviac rovnaká. Po chvíli experimentovania sa dá dospieť k voľbe
+\begin{equation*}
+    \Gamma = \texttt{diag}
+    \left(
+    \begin{bmatrix}
+        24000      & 400 & 12000
+    \end{bmatrix}
+    \right)
+\end{equation*}
+ako sme už uviedli, a výsledok je na obr.~\ref{figsc_ar05_Kyvadlo_ep2_2}.
+
+Toto je už uspokojivý priebeh adaptovaných parametrov čo sa rýchlosti adaptácie týka.
+
+Fungovalo by toto nastavenie aj pre iný priebeh referenčného signálu? Viď výsledok na obr.~\ref{figsc_ar05_Kyvadlo_ep2_3}. Kupodivu fungovalo.
 
 
 
 
 
 
+\begin{figure}[!t]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep2_3.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep2_3}
+
+    \vspace{-2mm}
+
+\end{figure}
+
+
+
+\subsection{Nasadenie na uvažovaný nelineárny systém}
+
+Fungovalo by toto riadenie aj keby bolo nasadené na nelineárny systém? Teda priamo na nelineárne kyvydlo? Vyskúšajme - viď obr.~\ref{figsc_ar05_Kyvadlo_ep3_1}.
+
+
+
+
+
+\begin{figure}[!b]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_1.pdf}
+	}
+    \makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_x2_1.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep3_1}
+
+    \vspace{-2mm}
+
+\end{figure}
+
+
+
+
+Fungovalo\ldots Aj pre obdĺžnikový referenčný signál? Fungovalo\ldots viď obr.~\ref{figsc_ar05_Kyvadlo_ep3_2}.
+
+
+
+\begin{figure}[!t]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_2.pdf}
+	}
+    \makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_x2_2.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep3_2}
+
+    \vspace{-2mm}
+
+\end{figure}
+
+
+
+
+
+Vyskúšajme teraz simuláciu, kde v čase 100 zmeníme pracovný bod na hodnotu $u_{PB} = 6$ (z pôvodnej hodnoty $u_{PB} = 5$), necháme ustáliť sa kyvadlo v novom pracovnom bode a potom budeme chcieť aby výstup sledoval RM tak ako v predch. pracovnom bode. Avšak, v čase 100 zároveň vypneme adaptáciu. Teda necháme adaptované parametre na hodnote, na ktorej boli v čase 100. Výsledok je na obr.~\ref{figsc_ar05_Kyvadlo_ep3_3}.
+
+
+
+
+\begin{figure}[!b]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_3.pdf}
+	}
+    \makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_x2_3.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep3_3}
+
+    \vspace{-2mm}
+
+\end{figure}
+
+
+
+Je zrejmé, že ak bol riadiaci systém naadaptovaný v jednom pracovnom bode, v~inom už nespĺňa cieľ radenia.
+
+
+\vfill
+
+Zapnime preto adaptáciu aj po prechode do nevého pracovného bodu. Výsledok je na obr.~\ref{figsc_ar05_Kyvadlo_ep3_4}. Parametre riadiaceho systému sa adaptovali na nový pracovný bod.
+
+
+
+
+
+\begin{figure}[!t]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_4.pdf}
+	}
+    \makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_x2_4.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep3_4}
+
+    \vspace{-2mm}
+
+\end{figure}
+
+
+
+
+
+Môžme spraviť aj zmenu na iný pracovný bod, napríklad na  $u_{PB} = 9$. Výsledok je na obr.~\ref{figsc_ar05_Kyvadlo_ep3_5}.
+
+
+
+
+
+
+
+
+
+\begin{figure}[!b]
+	\centering
+
+    \vspace{-3mm}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_5.pdf}
+	}
+    \makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar05_Kyvadlo_ep3_x2_5.pdf}
+	}
+
+    \vspace{-2mm}
+
+	\caption{}
+	\label{figsc_ar05_Kyvadlo_ep3_5}
+
+    \vspace{-2mm}
+
+\end{figure}
 
 
 
