@@ -1,6 +1,7 @@
 
 
 .ipynb_checkpoints
+.vscode
 
 old
 dev
@@ -9,6 +10,7 @@ AR99_oStabilite
 
 
 *.pyc
+__pycache__
 
 
 *.aux
