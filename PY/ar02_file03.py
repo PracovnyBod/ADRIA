@@ -8,7 +8,7 @@ import numpy as np
 from scipy.integrate import odeint
 
 import sys
-sys.path.append('./misc/')
+sys.path.append('./figjobs/')
 
 # ---------------------------------------------------------------------------
 
@@ -124,8 +124,7 @@ t_log, x_log, u_log, k_log, = fcn_simSch_03(sim_t_start,
                                             sim_T_s,
                                             sim_finalIndex,
                                             param_a,
-                                            )
-                                                                ### cellE c03 ###
+                                            )                   ### cellE c03 ###
 
 
 
