@@ -1,0 +1,316 @@
+\usepackage[slovak]{babel}
+
+
+
+
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage[left=4cm,
+			right=4cm,
+            % left=2.5cm,
+			% right=5.5cm,
+			top=2.1cm,
+			bottom=2.6cm,
+			footskip=7.5mm,
+			% twoside,
+			marginparwidth=3.0cm,
+			%showframe,
+			]{geometry}
+
+\usepackage{graphicx}
+\usepackage[dvipsnames]{xcolor}
+% https://en.wikibooks.org/wiki/LaTeX/Colors
+
+
+% ------------------------------
+
+\usepackage{lmodern}
+
+\usepackage[tt={oldstyle=false,proportional=true,monowidth}]{cfr-lm}
+
+% ------------------------------
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{dcolumn}
+
+
+\usepackage[singlelinecheck=true]{subfig}
+
+
+% ------------------------------
+
+
+\def\naT{\mathsf{T}}
+
+\hyphenpenalty=6000
+\tolerance=1000
+
+
+
+
+% ------------------------------
+
+
+\makeatletter
+
+	\def\@seccntformat#1{\protect\makebox[0pt][r]{\csname the#1\endcsname\hspace{4mm}}}
+
+	\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+	\hbox{}
+	\vspace*{\fill}
+	\begin{center}
+	\phantom{}
+	\end{center}
+	\vspace{\fill}
+	\thispagestyle{empty}
+	\newpage
+	\if@twocolumn\hbox{}\newpage\fi\fi\fi}
+
+	\newcommand\figcaption{\def\@captype{figure}\caption}
+	\newcommand\tabcaption{\def\@captype{table}\caption}
+
+\makeatother
+
+
+% ------------------------------
+
+
+
+
+\usepackage{fancyhdr}
+\fancypagestyle{plain}{%
+\fancyhf{} % clear all header and footer fields
+\fancyfoot[C]{\sffamily {\bfseries \thepage}\ | {\scriptsize\oznacenieCasti}}
+\renewcommand{\headrulewidth}{0pt}
+\renewcommand{\footrulewidth}{0pt}}
+\pagestyle{plain}
+
+
+% ------------------------------
+
+
+\usepackage{titlesec}
+\titleformat{\paragraph}[hang]{\sffamily  \bfseries}{}{0pt}{}
+\titlespacing*{\paragraph}{0mm}{3mm}{1mm}
+\titlespacing*{\subparagraph}{0mm}{3mm}{1mm}
+
+\titleformat*{\section}{\sffamily\Large\bfseries}
+\titleformat*{\subsection}{\sffamily\large\bfseries}
+\titleformat*{\subsubsection}{\sffamily\normalsize\bfseries}
+
+
+
+
+
+
+% ------------------------------
+
+\PassOptionsToPackage{hyphens}{url}
+\usepackage[pdfauthor={},
+			pdftitle={},
+			pdfsubject={},
+			pdfkeywords={},
+			% hidelinks,
+			colorlinks=false,
+			breaklinks,
+			]{hyperref}
+
+
+% ------------------------------
+
+
+\graphicspath{%
+{../fig_standalone/}%
+{../../PY/fig/}%
+{../../PY/jupynotex/fig/}%
+{../../ML/fig/}%
+{./fig/}%
+}
+
+
+
+% ------------------------------
+
+\usepackage{enumitem}
+
+\usepackage{lettrine}
+
+% ------------------------------
+
+
+\usepackage{microtype}
+
+
+% ------------------------------
+
+\usepackage[titles]{tocloft}
+
+\setlength{\cftsecindent}{-12mm}
+\setlength{\cftsecnumwidth}{12mm}
+\renewcommand{\cftsecpresnum}{\hfill}
+\renewcommand{\cftsecaftersnum}{\hspace{4mm}}
+
+\setlength{\cftsubsecindent}{-12mm}
+\setlength{\cftsubsecnumwidth}{16mm} % 12 + 4
+\renewcommand{\cftsubsecpresnum}{\hfill}
+\renewcommand{\cftsubsecaftersnum}{\hspace{8mm}} % 4 + 4 mm
+
+\setlength{\cftsubsubsecindent}{-12mm}
+\setlength{\cftsubsubsecnumwidth}{20mm} % 12 + 4 + 4
+\renewcommand{\cftsubsubsecpresnum}{\hfill}
+\renewcommand{\cftsubsubsecaftersnum}{\hspace{12mm}} % 4 + 4 + 4 mm
+
+\renewcommand{\cftsecpagefont}{\lstyle \bfseries}
+\renewcommand{\cftsubsecpagefont}{\lstyle}
+\renewcommand{\cftsubsubsecpagefont}{\lstyle}
+
+
+
+\setlength{\cftparaindent}{-16mm}
+\setlength{\cftparanumwidth}{28mm} % 16 + 4 + 4 + 4
+\renewcommand{\cftparapresnum}{\hfill}
+\renewcommand{\cftparaaftersnum}{\hspace{16mm}} % 4 + 4 + 4 + 4 mm
+
+
+
+
+
+
+
+
+% ------------------------------
+
+\usepackage{listings}
+
+
+
+\renewcommand{\lstlistingname}{Výpis kódu}
+\renewcommand{\lstlistlistingname}{Výpisy kódu}
+
+
+
+
+%New colors defined below
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.95}
+
+%Code listing style named "mystyle"
+\lstdefinestyle{mystyle}{
+  backgroundcolor=\color{backcolour},
+  commentstyle=\fontfamily{lmtt}\fontsize{8.5pt}{8.75pt}\selectfont\color{codegreen},
+  keywordstyle=\fontfamily{lmtt}\fontsize{8.5pt}{8.75pt}\selectfont\bfseries\color{Blue},
+  stringstyle=\fontfamily{lmtt}\fontsize{8.5pt}{8.75pt}\selectfont\color{codepurple},
+  basicstyle=\fontfamily{lmtt}\fontsize{8.5pt}{8.75pt}\selectfont,
+  breakatwhitespace=false,
+  breaklines=true,
+  captionpos=t,
+  keepspaces=true,
+  numbers=left,
+  numbersep=4mm,
+  numberstyle=\fontfamily{lmtt}\fontsize{8.5pt}{8.75pt}\selectfont\color{lightgray},
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  tabsize=2,
+  % xleftmargin=10pt,
+  framesep=10pt,
+  language=Python,
+  escapechar=|,
+}
+
+
+\lstset{
+    inputencoding=utf8,
+    extendedchars=true,
+    literate=%
+    {á}{{\'a}}1
+    {č}{{\v{c}}}1
+    {ď}{{\v{d}}}1
+    {é}{{\'e}}1
+    {ě}{{\v{e}}}1
+    {í}{{\'i}}1
+    {ň}{{\v{n}}}1
+    {ó}{{\'o}}1
+    {ř}{{\v{r}}}1
+    {š}{{\v{s}}}1
+    {ť}{{\v{t}}}1
+    {ú}{{\'u}}1
+    {ů}{{\r{u}}}1
+    {ý}{{\'y}}1
+    {ž}{{\v{z}}}1
+    {Á}{{\'A}}1
+    {Č}{{\v{C}}}1
+    {Ď}{{\v{D}}}1
+    {É}{{\'E}}1
+    {Ě}{{\v{E}}}1
+    {Í}{{\'I}}1
+    {Ň}{{\v{N}}}1
+    {Ó}{{\'O}}1
+    {Ř}{{\v{R}}}1
+    {Š}{{\v{S}}}1
+    {Ť}{{\v{T}}}1
+    {Ú}{{\'U}}1
+    {Ů}{{\r{U}}}1
+    {Ý}{{\'Y}}1
+    {Ž}{{\v{Z}}}1
+    {ô}{{\^{o}}}1
+}
+
+
+% ------------------------------
+
+
+\usepackage{caption}
+
+\DeclareCaptionFormat{odsadene}{\protect\makebox[0pt][r]{#1#2\hspace{4mm}}#3\par}
+\DeclareCaptionLabelSeparator{lendvojbodka}{:}
+% \DeclareCaptionFont{lightgray}{\color{lightgray}}
+\DeclareCaptionFont{lightgray}{\fontfamily{lmtt}\fontsize{8.5pt}{8.75pt}\selectfont\color{lightgray}}
+
+\captionsetup[lstlisting]{format=odsadene, labelsep=lendvojbodka, justification=raggedright, singlelinecheck=false, labelfont={sf, lightgray},}
+
+
+% ------------------------------
+
+
+
+
+
+% ------------------------------
+
+\usepackage[backend=biber,
+            style=numeric,
+            sorting=none,
+            ]{biblatex}
+\DeclareSourcemap{
+    \maps[datatype=bibtex]{
+        \map{
+        \step[fieldset=note, null]
+        }
+        \map{
+        \step[fieldset=file, null]
+        }        
+        % \map{
+        % \step[fieldset=url, null]        
+        % }
+        \map{
+        \step[fieldset=eprint, null]
+        }
+    }
+}
+
+
+\addbibresource{E:/_CurrentContent/01_work_repo/bibLaTeXDB/bibLaTeXDB.bib} % nonpublic data
+
+
+
