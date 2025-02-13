@@ -18,9 +18,13 @@ __pycache__
 *.log
 *.out
 *.synctex.gz
+*.synctex.gz.sum.synctex
 *.toc
 *.bbl
 *.blg
+*.bcf
+
+*.run.xml
 
 
 slprj
