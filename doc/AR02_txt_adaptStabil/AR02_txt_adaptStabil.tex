@@ -1,0 +1,1513 @@
+\documentclass[a4paper, 10pt, ]{article}
+
+\input{../misc_LaTeX/preamble.tex}
+
+\def\oznacenieCasti{AR02 - LS2026}
+
+
+
+
+
+
+\begin{document}
+
+\lstset{%
+style=mystyle,
+rangebeginprefix=\#\#\#\ cellB\ ,%
+rangebeginsuffix=\ \#\#\#,%
+rangeendprefix=\#\#\#\ cellE\ ,%
+rangeendsuffix=\ \#\#\#,%
+includerangemarker=false,
+}
+
+
+
+\fontsize{12pt}{22pt}\selectfont
+
+\centerline{\textsf{Adaptívne riadenie} \hfill \textsf{\oznacenieCasti}}
+
+\fontsize{18pt}{22pt}\selectfont
+
+
+
+
+
+\begin{flushleft}
+	\textbf{\textsf{O adaptívnej stabilizácii}}
+\end{flushleft}
+
+
+
+
+
+\normalsize
+
+\bigskip
+
+{\hypersetup{hidelinks}
+
+\tableofcontents
+
+}
+
+\bigskip
+
+\vspace{18pt}
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Cvičenie prvé}
+\label{cvprve}
+
+
+\begin{enumerate}[leftmargin=0pt, labelsep=3mm, itemsep=0pt]
+
+	\item  Uvažujme riadený systém v tvare
+	\begin{equation}
+		\dot{x}(t) = a\, x(t) + b \, u(t) \label{sustavaNaCv}
+	\end{equation}
+	kde $x(t)$ je stavová veličina systému, $u(t)$ je akčný zásah (výstup) regulátora. Parameter $b = 1$ a parameter $a$ je neznáma konštanta.
+    \begin{itemize}
+		\item Koľkého rádu je systém \eqref{sustavaNaCv}?
+		\item Aká je prenosová funkcia daného dynamického systému?
+		\item Aký je charakteristický polynóm a charakteristická rovnica dynamického systému?
+		\item Aké sú korene charakteristického polynómu?
+		\item Pre ktoré $a$ je systém stabilný a pre ktoré $a$ je nestabilný? Nájdite intervaly.
+		\item Aké je zosilnenie dynamického systému? Aké sú časové konštanty?
+		\item Ktorého reálneho systému (napríklad), je vhodným modelom takáto sústava?
+	\end{itemize}
+
+	\item Zostavte simulačnú schému systému \eqref{sustavaNaCv}. Zvoľte konkrétnu hodnotu parametra $a$~z~nájdeného intervalu tak aby riadený systém \eqref{sustavaNaCv} bol stabilný. Nech začiatočný stav je $x(0) = 1$ a~$u(t)=0$. Simuláciou (pre vhodný časový úsek) ukážte, že $x = 0$ je rovnovážny stav sústavy.
+
+	\item Nech začiatočný stav sústavy $x(0) = 1$. Zvoľte konkrétnu hodnotu parametra $a$~tak aby sústava \eqref{sustavaNaCv} bola \textbf{nestabilná}. Spustite simuláciu a pozorujte nestabilný priebeh stavovej veličiny. Pridajte k riadenému systému regulátor daný nasledovne:
+	\begin{equation}
+		u = -k\, x \qquad k > \left| a \right|
+	\end{equation}
+	a overte, že URO je stabilný. Vysvetlite. Vyskúšajte rôzne hodnoty zosilnenia $k$.
+
+	\item Nech začiatočný stav sústavy $x(0) = 1$. Zvoľte konkrétnu hodnotu parametra $a$~tak aby sústava \eqref{sustavaNaCv} bola \textbf{nestabilná}. Pridajte k riadenému systému regulátor daný nasledovne:
+	\begin{equation}
+		u = -k\, x; \qquad \dot{k} = x^2
+	\end{equation}
+	Simuláciou vyšetrite stabilitu URO.
+
+	\item Overte, že regulátor z predchádzajúcej úlohy zabezpečí stabilizáciu URO pre rôzne hodnoty $a$ a rôzne hodnoty začiatočného stavu $x(0)$ (vyskúšajte rôzne). Teda regulátor je adaptívny! Vysvetlite\ldots
+
+\end{enumerate}
+
+
+
+
+\section{Viac k téme cvičenia prvého}
+
+Zaoberáme sa systémom, ktorého vhodným modelom je diferenciálna rovnica v tvare
+\begin{equation} \label{viac_riadsys}
+	\dot x(t) = a x(t) + u(t)
+\end{equation}
+kde $x(t)$ je výstupná veličina, $u(t)$ je vstupná veličina a konštanta $a$ je parameter riadeného systému.
+
+Nech je známe, že riadený systém je nestabilný. To znamená, že parameter $a$ je kladné číslo. Nie je známa hodnota parametra $a$, ale je známe jeho znamienko. Keďže riadený systém je nestabilný, po vychýlení z rovnovážneho stavu (rovnovážnej polohy) sa výstupná veličina nevráti na hodnotu v rovnovážnom stave.
+
+Úlohou je navrhnúť taký riadiaci systém, ktorý zabezpečí, že výstupná veličina sa vráti na hodnotu v rovnovážnom stave napriek tomu, že jej začiatočná hodnota (začiatočný stav) je iná ako v rovnovážnom stave. Teda začiatočný stav riadeného systému je vychýlený z rovnovážneho stavu.
+
+
+
+\bigskip
+
+\noindent
+Mimochodom, rovnica \eqref{viac_riadsys} je dynamický systém, lineárny systém a rád systému je 1 (lineárny dynamický systém 1. rádu). Z toho vyplýva, že v rovnovážnom stave je hodnota výstupu $y(t)$ nulová.
+
+Diferenciálnu rovnicu \eqref{viac_riadsys} je možné (pri uvažovaní nulových začiatočných podmienok) previesť do tvaru prenosovej funkcie. Ak sa uváži, že
+\begin{equation}
+	s x = a x + u
+\end{equation}
+kde $s$ je Laplaceov operátor, pričom tu plní funkciu časovej derivácie, potom možno písať
+\begin{subequations}
+	\begin{align}
+		s x - a x &= u \\
+		\left( s - a \right) x &= u \\
+		\frac{x}{u} &= \frac{1}{\left( s - a \right)}
+	\end{align}
+\end{subequations}
+čo je prenosová funkcia zodpovedajúca systému \eqref{viac_riadsys}. Charakteristický polynóm je $\left( s - a \right)$ a koreňom tohto polynómu je (číslo) $a$. Keďže je známe, že systém je nestabilný, potom pól systému, teda koreň charakteristického polynómu leží v pravej polrovine komplexnej roviny. To znamená, že $a>0$.
+
+% \bigskip
+
+
+
+\begin{figure}[!b]
+	\centering
+	\makebox[\textwidth][c]{\includegraphics{figsc_ar02_fig00_0.pdf}}
+	\caption{Výsledok numerickej simulácie systému \eqref{viac_riadsys} pre $a = 1$ pri začiatočnom stave $x(0) = 1$.}
+	\label{Výsledok numerickej simulácie systému}
+\end{figure}
+
+
+\paragraph{Samotný riadený systém}
+
+\noindent
+S využitím numerickej simulácie ukážme, že systém \eqref{viac_riadsys} je pre $a>0$ nestabilný. Pri tomto overení je vstupná veličina systému $u(t)$ nepodstatná. Preto je nastavená na nulovú hodnotu. Nech začiatočná hodnota stavovej veličiny $x(0) = 1$ a nech hodnota parametra $a = 1$. Simulujme 3 časové jednotky. Výsledok numerickej simulácie  je na obr.~ \ref{Výsledok numerickej simulácie systému}.
+
+
+
+
+
+
+\paragraph{Formalizácia požiadaviek na kvalitu riadenia}
+
+Úlohou je aby sa výstupná veličina vrátila na nulovú hodnotu (do rovnovážneho stavu). Ale ako rýchlo sa tam má vrátiť? Aké sú požiadavky na prechodný dej pri činnosti riadiaceho systému?
+
+Nech sú tieto požiadavky premietnuté do akéhosi vzorového dynamického systému, ktorý má stavovú veličinu $x_m(t)$. Tento vzorový systém je
+\begin{equation} \label{viac_refmodel}
+	\dot x_m(t) = -a_m x_m(t)
+\end{equation}
+Jeho parametrom je $a_m$. Ak bude $a_m > 0$, potom bude tento systém stabilný a~teda vždy sa ustáli v rovnovážnom stave, to je v tomto prípade samozrejme nula. Pól systému je $-a_m$. Voľbou pólu sa volí dynamika s akou sa systém bude vracať do rovnovážneho stavu. Tento vzorový systém teda zodpovedá úlohe, ktorú máme, a~navyše úplne presne špecifikuje akékoľvek iné požiadavky, ktoré nemusia priamo plynúť zo zadania úlohy.
+
+
+\paragraph{Teoretická existencia ideálneho riadiaceho systému}
+
+Od riadiaceho systému chceme aby pre riadený systém \eqref{viac_riadsys} zabezpečil, že výstupná veličina riadeného systému \eqref{viac_riadsys} $x(t)$ sa bude správať práve tak ako veličina $x_m(t)$. V~ideálnom prípade je teda odchýlka $e(t) = x(t) - x_m(t)$ nulová. Je vôbec možné zostaviť taký riadiaci systém?
+
+Uvažujme nasledujúci predpis pre výpočet hodnoty akčného zásahu $u(t)$.
+\begin{equation} \label{viac_idealZR}
+	u(t) = -k^* x(t)
+\end{equation}
+Zovšeobecnene budeme takýto predpis nazývať zákon riadenia. Predpisuje ako sa vypočíta akčný zásah. Zákon riadenia obsahuje dva prvky. Signál $x(t)$, ktorý je spätnou väzbou od riadeného systému, keďže $x(t)$ je výstupom riadeného systému, a druhým prvkom zákona riadenia je parameter $k^*$.
+
+
+Dosaďme za $u(t)$ v riadenom systéme. Získa sa tak rovnica uzavretého regulačného obvodu (URO). V tomto prípade v tvare
+\begin{subequations}
+	\begin{align}
+		\dot x(t) &= a x(t) - k^* x(t) \\
+		\dot x(t) &= \left( a - k^* \right) x(t)
+	\end{align}
+\end{subequations}
+Pripomeňme, že je žiadané aby odchýlka $e(t) = x(t) - x_m(t)$ bola nulová. Je zrejmé, že ak by platilo $\left( a - k^* \right) = -a_m$, potom
+\begin{align}
+	\dot x(t) = -a_m x(t)
+\end{align}
+URO a uvedený vzorový systém \eqref{viac_refmodel} by teda mali úplne rovnaký predpis (rovnakú rovnicu). Samozrejme, v URO vystupuje signál $x(t)$ a vo vzorovom systéme vystupuje signál $x_m(t)$. Inak sú však tieto dva systémy úplne rovnaké. To znamená, že možno písať $x(t) = x_m(t)$ a teda daná celková úloha je splnená.
+
+Týmto sa ukázalo, že je možné zostaviť taký riadiaci systém, teda nájsť taký zákon riadenia, ktorý rieši danú úlohu.
+
+V tomto prípade sme našli zákon riadenia \eqref{viac_idealZR}, ku ktorému prislúcha tzv. podmienka zhody, čo v tomto prípade je
+\begin{equation}
+	\left( a - k^* \right) = -a_m
+\end{equation}
+Ide o podmienku zhody medzi URO a istým vzorovým systémom, ktorý sa vo všeobecnosti nazýva Referenčný model (RM). RM predpisuje ako sa má správať URO.
+
+Pre riešenie úlohy tohto typu teda v prvom rade musí existovať \emph{podmienka zhody} čo je, pochopiteľne, istá rovnica a táto rovnica musí byť riešiteľná. Neznámou je samozrejme parameter zákona riadenia. V tomto prípade $k^*$. Teoretické riešenie je
+\begin{subequations}
+	\begin{align}
+		 a - k^* &= -a_m \\
+		 k^* &= a_m + a
+	\end{align}
+\end{subequations}
+Konkrétnu hodnotu parametra $k^*$ však nevieme určiť pretože nepoznáme konkrétnu hodnotu parametra $a$. Ale vieme, že vôbec existuje ideálne $k^*$. To je veľmi, veľmi dôležité!
+
+
+
+
+
+
+
+
+
+
+
+
+
+\paragraph{Zákon riadenia s premenlivým parametrom}
+
+Zákon riadenia \eqref{viac_idealZR}, ktorý má konštantný parameter $k^*$, teda nevieme použiť, pretože nevieme vypočítať $k^*$. Zachovajme ale štruktúru zákona riadenia (aby stále existovali riešiteľné podmienky zhody) a neznámy parameter $k^*$ nahraďme parametrom, ktorému dovolíme meniť sa v čase. Adaptovať sa. Adaptovať sa tak, aby sme splnili úlohu. Adaptívny zákon riadenia nech teda je
+\begin{equation} \label{adapt_idealZR}
+	u(t) = -k(t) x(t)
+\end{equation}
+kde $k(t)$ je časovo premenlivý parameter.
+
+Parameter $k(t)$ sa vlastne môže meniť akokoľvek. Cieľom však je splnenie úlohy. To znamená, že ideálne $e(t) = x(t) - x_m(t) = 0$. To si však vyžaduje mať možnosť určiť $k^*$. Žiadať teda $e(t) = 0$ v tomto prípade nikam nevedie. Žiadajme ale aby $e(t) \to 0$, teda že odchýlka $e(t)$ sa asymptoticky blíži k nule. Pritom sa však nevylučuje aby mohla byť aj nulová.
+
+Ak $e(t) \to 0$ potom vlastne $x(t) \to x_m(t)$, teda signál $x(t)$ sa hodnotou približuje k~signálu $x_m(t)$. Aká je vlastne hodnota signálu $x_m(t)$? Predpisuje ju referenčný model \eqref{viac_refmodel}. K rovnici \eqref{viac_refmodel} chýba explicitne napísaná začiatočná podmienka pre signál $x_m(t)$, teda $x_m(0)$. Úlohou je aby sa $x(t)$ dostalo do rovnovážneho stavu. Teda do nuly. Signál $x_m(t)$ by teda mal byť nulový. A prečo nie hneď aj od začiatku? Nech teda $x_m(0) = 0$. Potom vzhľadom na rovnicu \eqref{viac_refmodel} je $x_m(t) = 0$ po celý čas! Ak teda chceme $e(t) \to 0$, potom máme $x(t) \to 0$. Alebo inak povedané  $e(t) = x(t) - x_m(t) = x(t) - 0$. Teda $e(t) = x(t)$.
+
+
+
+
+
+
+
+
+
+
+\paragraph{Spôsob ako meniť (adaptovať) parameter zákona riadenia}
+
+Stále však nie je zrejmé ako adaptovať (meniť) parameter $k(t)$ tak aby sme splnili modifikovanú požiadavku $e(t) \to 0$.
+
+URO s adaptívnym zákonom riadenia \eqref{adapt_idealZR} je
+\begin{align}
+	\dot x(t) &= \left( a - k(t) \right) x(t) \qquad x(0) \neq 0
+\end{align}
+Ak by platilo $\left( a - k(t) \right) < 0$, potom by bol URO stabilný a $x(t) \to 0$ pri akejkoľvek začiatočnej hodnote $x(0)$. A to je presne požiadavka pre splnenie úlohy. Hodnota parametra $a$ je však neznáma, ale je zrejmé, že ak bude $k(t)$ dostatočne veľké (vzhľadom na $a$), potom celý výraz $\left( a - k(t) \right)$ bude záporný.
+
+Ako však získať informáciu o tom kedy je $k(t)$ dostatočne veľké? Ak nie je dostatočne veľké, potom je vo všeobecnosti odchýlka $e(t)$ nenulová! Teda pri nenulovej $e(t)$ treba $k(t)$ meniť (v čase), konkrétnejšie, treba zvyšovať jeho hodnotu. Len ak by platilo, že $e(t) = 0$, len vtedy možno prestať meniť $k(t)$.
+
+Zmena parametra $k(t)$ v čase je jeho časová derivácia $\dot k(t)$.
+
+Pre vzťah
+\begin{equation} \label{viac_intuitZA}
+	\dot k(t) = e^2(t)
+\end{equation}
+platí, že ak je $e(t)$ nenulové, tak zmena $k(t)$ je kladná, a len ak $e(t) = 0$ aj zmena $k(t)$ je nulová. Pomocou tohto predpisu pre $\dot k(t)$ teda dosiahneme také zmeny $k(t)$ v čase, aké sú potrebné pre dosiahnutie $x(t) \to 0$ a teda $e(t) \to 0$, čo je splnenie stanoveného cieľa!
+
+Rovnica \eqref{viac_intuitZA} predpisuje ako sa má meniť parameter zákona riadenia tak aby bol cieľ riadenia splnený. Vo všeobecnosti sa takýto predpis nazýva zákon adaptácie.
+
+Mimochodom, keďže vieme, že v tomto prípade platí $e(t) = x(t)$, potom \eqref{viac_intuitZA} možno písať aj v tvare
+\begin{equation} \label{viac_praktickyZA}
+	\dot k(t) = x^2(t)
+\end{equation}
+ba dokonca aj
+\begin{equation}
+	\dot k(t) = e(t)x(t)
+\end{equation}
+čo by bol pre skúsenejšieho v tejto oblasti azda najvhodnejší zápis. V tomto prípade praktickejším je tvar \eqref{viac_praktickyZA}, pretože si to nevyžaduje žiadny ďalší signál, len $x(t)$, ktorý je samozrejme k dispozícii.
+
+
+\paragraph{Overenie adaptívneho riadiaceho systému}
+
+Zákon adaptácie \eqref{viac_praktickyZA} teraz dopĺňa zákon riadenia \eqref{adapt_idealZR}. K uvedenému ešte pre úplnosť prislúcha aj referenčný model čo však v tomto prípade možno zanedbať. Tieto súčasti spolu tvoria adaptívny riadiaci systém, ktorý spĺňa danú úlohu.
+
+S využitím numerickej simulácie ukážme, že uvedený adaptívny riadiaci systém stabilizuje riadený systém, t.j. pri začiatočnom stave mimo rovnovážneho stavu zabezpečí asymtotické približovanie sa výstupu riadeného systému k rovnovážnemu stavu. Na obr.~\ref{Výsledok numerickej simulácie adapt systému} sú výsledky použitia tohto adaptívneho riadiaceho systému pre prípad keď je v riadenom systéme $a = 1$ a $x(0) = 1$. Je možné pozorovať vyššie uvedené predpoklady a teda, že parameter $k(t)$ sa zvyšuje až pokým neprekročí hodnotu parametra $a$. Vtedy sa URO stane stabilným a jeho stavová veličina sa z hodnoty, ktorú práve má, prirodzene začne vracať do rovnovážneho stavu, teda na hodnotu nula. Ďalej rýchlosť zmeny parametra $k(t)$ klesá až sa napokon ustáli. Ustáli sa na hodnote vyššej ako je hodnota parametra~$a$.
+
+Ten istý adaptívny riadiaci systém sa bude, samozrejme, správať kvalitatívne rovnako pre rôzne hodnoty parametra riadeného systému $a$ (a pre rôzne začiatočné stavy riadeného systému). Na obr.~\ref{Výsledok numerickej simulácie adapt systému pripady} sú pre ilustráciu znázornené rôzne prípady hodnoty parametra $a$. Tým je prezentovaná schopnosť adaptácie uvedeného riadiaceho systému.
+
+
+\begin{figure}[!t]
+	\centering
+	\makebox[\textwidth][c]{\includegraphics{figsc_ar02_fig01_1.pdf}}
+	\caption{Výsledok numerickej simulácie adaptívneho riadiaceho systému pre $a = 1$ pri začiatočnom stave $x(0) = 1$.}
+	\label{Výsledok numerickej simulácie adapt systému}
+\end{figure}
+
+
+\begin{figure}[!t]
+	\centering
+	\makebox[\textwidth][c]{\includegraphics{figsc_ar02_fig02_2.pdf}}
+	\caption{Výsledok simulácie adaptívneho riadiaceho systému pre rôzne hodnoty parametra $a$. Začiatočný stav riadeného systému je v každom prípade $x(0) = 1$.}
+	\label{Výsledok numerickej simulácie adapt systému pripady}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section[Formálny opis adaptívnej stabilizácie pre systém 1.~rádu]{Formálny opis adaptívnej stabilizácie\\pre systém 1.~rádu}
+
+
+
+Nasledujúci jednoduchý príklad ilustruje situáciu, v~ktorej neznalosť hodnoty parametra riadeného systému znemožňuje návrh riadiaceho systému. Adaptívne riadenie rieši tento problém a~umožňuje navrhnúť riadiaci systém, ktorý zabezpečí splnenie cieľa riadenia pre akúkoľvek hodnotu neznámeho parametra sústavy.
+
+Uvažujme riadený systém v tvare
+\begin{equation} \label{DRsustavy}
+	\dot{x} = a\, x + u
+\end{equation}
+kde $x(t)$ je stavová veličina systému, $u(t)$ je akčný zásah (výstup) regulátora a~parameter $a$ je neznáma konštanta. Rovnovážny bod systému je v~bode $x=0$. Cieľom riadenia je aby stavová veličina $x$ bola asymptoticky stabilná, teda aby po vychýlení stavu $x$ z~rovnovážneho bodu sa stav postupne približoval (asymptoticky) naspäť k~rovnovážnemu bodu.  To platí pre nasledujúci systém:
+\begin{equation} \label{DRstabSustavy}
+	\dot{x} = -a_m\, x
+\end{equation}
+kde konštanta $a_m > 0$.
+
+Ak by bol parameter $a$ známy, potom lineárny regulátor v tvare
+\begin{equation} \label{skalarnyZakonRiadenia}
+	u = -k\, x \qquad k > \left| a \right|
+\end{equation}
+zabezpečí splnenie úlohy. V takomto prípade nezáleží, či samotný riadený systém (bez riadenia, $u=0$) stabilný je alebo nie je. Poznáme absolútnu hodnotu $\left| a \right|$ a zosilnenie $k$ zvolíme väčšie ako $\left| a \right|$. Potom je zrejmé, že
+\begin{equation} \label{DRURO}
+	\dot{x} = a\, x + \left( -k\, x \right) = \left(a-k\right)\,x
+\end{equation}
+je rovnica uzavretého regulačného obvodu (URO) spĺňajúceho cieľ riadenia, pretože v najhoršom (hraničnom) prípade, kedy URO je stabilný, nie však asymptoticky stabilný, ak $k = \left| a \right|$ platí $\left(a-\left| a \right|\right) \leq 0$ pre každé $a$.
+
+Pre návrh regulátora \eqref{skalarnyZakonRiadenia} v podstate stačí poznať horné ohraničenie parametra $a$.
+
+Na druhej strane, parameter $a$ sa môže s časom meniť a jeho horná hranica nemusí byť známa. Pre nevhodne zvolené $k$ potom môže nastať situácia $a>k>0$. Vtedy URO je nestabilný. Pre neznámu hornú hranicu parametra $a$ nie je možné navrhnúť riadiaci systém, ktorý vždy zabezpečí splnenie úlohy riadenia --- stabilný URO.
+
+Riešenie tejto úlohy metódami Adaptívneho riadenia, ktoré budú popísané podrobne neskôr, vedie na nasledovné:
+
+Riadiaci systém v tvare
+\begin{equation} \label{adaptRiadiacSystem}
+	u = -k\, x; \qquad \dot{k} = x^2
+\end{equation}
+zabezpečí, že všetky signály v URO sú ohraničené a $x$ s časom konverguje do nuly pričom \emph{nezáleží} na hodnote parametra $a$. Požiadavkou nie je presné určenie hodnoty parametra $a$, ale len stabilizácia systému. Nie je požadovaná ani presná hodnota parametra $k$. Adaptívny riadiaci systém len zabezpečí, že $k$ je ohraničené, teda stabilné. Pre tento konkrétny jednoduchý príklad je zrejmé, že $k$ sa ustáli na hodnote väčšej ako $a$, čo však nehovorí nič o presnej hodnote parametra $a$ ani $k$.
+
+Ukážme, že riadiaci systém \eqref{adaptRiadiacSystem} stabilizuje stavovú -- výstupnú veličinu sústavy \eqref{DRsustavy}.
+
+Najskôr upresníme cieľ riadenia. Cieľom je aby $x$~konvergovalo k~nule pre čas $t\rightarrow\infty$. Žiadanou hodnotou pre $x$ je $r=0$. Uvažujeme všeobecný (akýkoľvek) začiatočný stav $x_0$. Začiatok je v čase $t = 0$, teda: $x(0) = x_0$. Cieľ si vyžaduje aby URO bol stabilný. Preto nech želaný pól URO je $-a_m$, kde $a_m>0$ sa volí podľa požiadaviek na rýchlosť regulácie. Potom referenčný (ideálny, želaný) priebeh stavu $x$ opisuje rovnica
+\begin{equation} \label{drRM}
+	\dot{x}_m = -a_m\, x_m
+\end{equation}
+kde $x_m$ stavová veličina ideálneho URO. Je prirodzené očakávať (lepšie povedané, zvoliť si), že začiatočný stav $x_m(0) = 0$ z čoho vyplíva, že v ďalšom môžme uvažovať $x_m = 0$.
+
+V ideálnom prípade, keď poznáme parameter $a$,~vieme určiť  pre zákon riadenia „ideálne“ $k^*$:
+\begin{equation} \label{idealZakRiadenia}
+	u = -k^* \, x; \qquad k^* = a + a_m
+\end{equation}
+Vtedy sa URO presne zhoduje s ideálnym URO, teda s~referenčným modelom \eqref{drRM}
+\begin{equation}
+	\begin{split}
+		\dot{x} &= a\, x + \left( -k^* \, x \right) = \left(a - k^* \right)\,x = \left(a - a - a_m \right)\,x  =- a_m\,x
+	\end{split}
+\end{equation}
+Pretože $a$ je neznáme, $k^*$ nevieme vypočítať a~zákon riadenia \eqref{idealZakRiadenia} nemôže byť použitý.
+
+Žiadaná hodnota pre stavovú veličinu $x$ je $r = 0$ a žiadame aby sa hodnota parametra $k$ približovala k~ideálnej hodnote $k^*$ pretože len vtedy bude pól URO v~bode $-a_m$. Riadený systém vyjadríme ako funkciu ideálneho parametra $k^*$ (teda tak aby rovnica obsahovala parameter $k^*$). Tento krok má súvislosť s tým, že ide v podstate o identifikáciu parametra $k^*$ --- bližšie vysvetlenie neskôr.  Urobíme to jednoducho pripočítaním a~odpočítaním „ideálneho“ zákona riadenia \eqref{idealZakRiadenia} k~rovnici riadeného systému \eqref{DRsustavy}, potom riadený systém má tvar
+\begin{equation}
+	\dot{x} = a\, x - k^*\, x + k^*\, x + u
+\end{equation}
+Pretože $a - k^* = -a_m$ máme
+\begin{equation}
+	\dot{x} = -a_m\, x + k^*\, x + u
+\end{equation}
+Definujme tzv. \emph{adaptačnú odchýlku}. Ak adaptačná odchýlka nie je nulová je potrebné adaptovať riadiaci systém tak aby sa skutočný URO zhodoval so želaným URO. Adaptačná odchýlka má tvar
+\begin{equation}
+	e = x - x_m
+\end{equation}
+potom platí:
+\begin{subequations}
+	\begin{align}
+		\dot{x} - \dot{x}_m &= -a_m\, x + k^*\, x + u - (-a_m)\, x  \\
+		\dot{e} &= -a_m\,(x - x_m) + k^*\, x + u \\
+		\dot{e} &= -a_m\,e + k^*\, x + u   \label{dynAdaptOdch}
+	\end{align}
+\end{subequations}
+Zavedením adaptačnej odchýlky sme posunuli začiatok súradnicového systému stavového priestoru do rovnovážneho bodu riadeného systému. Inými slovami, rovnovážny stav veličiny $e$ z rovnice \eqref{dynAdaptOdch} je v začiatku stavového priestoru riadeného systému.
+
+Uvažujeme použitie zákona riadenia v tvare $u = -k\, x$, po dosadení do \eqref{dynAdaptOdch}:
+\begin{align}
+	\dot{e} &= -a_m\,e + k^*\, x  -k\, x \\
+	\dot{e} &= -a_m\,e - \theta\, x
+\end{align}
+kde sme zaviedli pojem \emph{chyba nastavenia parametrov zákona riadenia}, ktorý označíme $\theta$, a v tomto prípade $\theta = k - k^*$.
+
+Chceme dokázať, že riadiaci systém \eqref{adaptRiadiacSystem} stabilizuje uzavretý regulačný obvod. Platí $\dot{\theta} = \dot{k} - \dot{k^*}$. Avšak $k^* = \text{konšt.}$ a teda $\dot{k^*} = 0$, preto $\dot{\theta} = \dot{k} = x^2$. Vyšetrením stability systému diferenciálnych rovníc v tvare
+\begin{subequations} \label{dynamikaAdaptOdch}
+	\begin{align}
+		\dot{e} &= -a_m\,e - \theta\, x  \\
+		\dot{\theta} &= x^2
+	\end{align}
+\end{subequations}
+dokážeme stabilitu URO.
+
+Zvoľme kandidáta na Ljapunovovu funkciu
+\begin{equation} \label{kandLjapFcn}
+	V = \frac{\left(e(t)\right)^2}{2} + \frac{\left(\theta(t)\right)^2}{2}
+\end{equation}
+Derivácia \eqref{kandLjapFcn} podľa času je
+\begin{equation} \label{derLjapFcn}
+	\dot{V} = \frac{1}{2} \, 2 \, e(t) \, \dot{e}(t) + \frac{1}{2} \, 2 \, \theta(t) \, \dot{\theta}(t) =  e(t) \, \dot{e}(t) +  \theta(t) \, \dot{\theta}(t)
+\end{equation}
+Do \eqref{derLjapFcn} dosadíme za $\dot{e}$ a $\dot{\theta}$, máme
+\begin{subequations}
+	\begin{align}
+	\dot{V} &=   e \, \left( -a_m\,e - \theta \, x \right) +  \theta \, x^2 \\
+	\dot{V} &=    -a_m\,e^2 - \theta\, x \, e  +  \theta \, x^2 \label{derLjapFcn2}
+	\end{align}
+\end{subequations}
+Pretože $e = x - x_m$ a uvažujeme $x_m = 0$ a teda $e = x$, tak rovnicu \eqref{derLjapFcn2} možno písať v tvare
+\begin{subequations}
+	\begin{align}
+		\dot{V} &=    -a_m\,x^2 - \theta\, x^2  +  \theta \, x^2 \\
+		\dot{V} &=    -a_m\,x^2
+	\end{align}
+\end{subequations}
+
+Pre systém \eqref{dynamikaAdaptOdch} sme našli kladne definitnú funkciu $V$ (Tá funkcia má skoro pre všetky $x$ a $\theta$ kladnú hodnotu, len pre $x=0$ a $\theta = 0$ má nulovú hodnotu. Tá nulová hodnota je práve v stacionárnom bode systému \eqref{dynamikaAdaptOdch}, ktorého stabilitu vyšetrujeme). Derivácia tejto funkcie je vo všeobecnosti záporne semidefinitná (Je rovná nule v stacionárnom -- nulovom bode, a inde môže byť len záporná alebo tiež rovná nule). Teda systém je stabilný. Presný zaver o stabilite rovnovážneho stavu systému \eqref{dynamikaAdaptOdch} v zmysle všeobecnej teórie stability podľa Ljapunova je, že rovnovážny stav je stabilný (neutrálne) podľa všetkých premenných ($x$ a $\theta$) a asymptoticky stabilný podľa premennej $x$. Prakticky to znamená, že premenná $x$ dosiahne nulovú hodnotu po skončení prechodového deja, ale premenná $\theta$ (a teda aj $k$) len konečnú hodnotu. Tým sme ukázali vlastnosti, ktoré zabezpečí \emph{adaptívny} riadiaci systém \eqref{adaptRiadiacSystem}.
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Príklad realizácie niektorých úloh cvičenia prvého}
+
+Konkrétne v tejto časti sa budeme venovať najmä numerickému riešeniu diferenciálnych rovníc (ktoré vystupujú v našom cvičení prvom) s využitím, pochopiteľne, ODE solvera. Načrtneme však aj všeličo iné. Používa sa tu Python\footnote{Rovnako dobre by sa to dalo zostrojiť v akomkoľvek programovacom jazyku, v ktorom máme k~dispozícii ODE solver. Prípadne aj ten ODE solver by sme si naprogramovali\ldots}.
+
+
+
+
+
+\subsection{Takpovediac základný prístup}
+
+
+
+Uvažujme riadený systém v tvare
+\begin{equation}
+	\dot{x}(t) = a\, x(t) + u(t)
+\end{equation}
+kde $x(t)$ je stavová veličina systému, $u(t)$ je akčný zásah (výstup) regulátora. Parameter $a$ je neznáma konštanta.
+
+Funkcia, ktorá realizuje diferenciálnu rovnicu riadeného systému, nech je v~nasledujúcom tvare, kde sa hneď aj predpokladá, že $u(t)=0$.
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 % linerange={34-42}
+				 linerange=c01-c01,
+                 ]{../../PY/ar02_file02.py}
+}
+
+Zostavme simulačnú schému pre riadený systém. Zvoľme konkrétnu hodnotu parametra $a$ tak aby riadený systém bol stabilný. Nech začiatočný stav je $x(0) = 1$ a~$u(t)=0$. Simuláciou (pre vhodný časový úsek) ukážme, že $x = 0$ je rovnovážny stav riadeného systému.
+
+\noindent
+Simulačnú schému nech realizuje nasledujúca funkcia:
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 % linerange={48-63},
+				 linerange=c02-c02,
+                 ]{../../PY/ar02_file02.py}
+}
+
+\noindent
+Nastavme a spustime simuláciu:
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c03-c03,
+                 ]{../../PY/ar02_file02.py}
+}
+
+Všetko potrebné je teraz zaznamenané v premenných  \lstinline{t_log} a \lstinline{x_log}. Nakreslime obrázok (pre prehľadnosť je kód kreslenia obrázku v samostatnom súbore a nie priamo tu v nasledujúcej bunke):
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c04-c04,
+                 ]{../../PY/ar02_file02.py}
+}
+
+\begin{centering}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar02_fig03_0.pdf}
+	}
+
+    \vspace{-2mm}
+
+	% \captionsetup{singlelinecheck=off}
+    \figcaption{}
+
+    \vspace{2mm}
+
+    \label{figsc_ar02_fig03_0}
+
+\end{centering}
+
+
+
+
+\noindent
+V prípade, že parameter $a$ je zvolený tak aby bol riadený systém nestabilný, výsledok je:
+
+
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c05-c05,
+                 ]{../../PY/ar02_file02.py}
+}
+
+\begin{centering}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar02_fig03_1.pdf}
+	}
+
+    \vspace{-2mm}
+
+    \figcaption{}
+
+    \vspace{2mm}
+
+    \label{figsc_ar02_fig03_1}
+
+\end{centering}
+
+
+
+
+
+Nech začiatočný stav riadeného systému je $x(0) = 1$. Ponechajme konkrétnu hodnotu parametra $a$ tak aby riadený systém bol nestabilný. Pridajme k riadenému systému riadiaci systém daný nasledovne:
+	\begin{equation}
+		u = -k\, x; \qquad \dot{k} = x^2
+	\end{equation}
+Simuláciou vyšetrime stabilitu URO.
+
+
+\noindent
+Funkcia, ktorá realizuje potrebné diferenciálne rovnice nech je nasledovná:
+
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c06-c06,
+                 ]{../../PY/ar02_file02.py}
+}
+
+\noindent
+Simulačná schéma, opäť realizovaná ako funkcia:
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c07-c07,
+                 ]{../../PY/ar02_file02.py}
+}
+
+
+\noindent
+Nastavenie a spustenie simulácie, pričom pripomeňme, že parameter $a$ je stále nastavený tak, aby riadený systém bol nestabilný.
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c08-c08,
+                 ]{../../PY/ar02_file02.py}
+}
+
+\noindent
+Obrázok, ktorý zobrazuje okrem výstupnej veličiny riadeného systému aj iné veličiny potrebné pre posúdenie stability celého uzavretého regulačného obvodu.
+
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file02.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c09-c09,
+                 ]{../../PY/ar02_file02.py}
+}
+
+
+
+\begin{centering}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar02_fig01_1.pdf}
+	}
+
+    \vspace{-2mm}
+
+    \figcaption{}
+
+    \vspace{2mm}
+
+    \label{figsc_ar02_fig01_1}
+
+\end{centering}
+
+\noindent
+Cieľ riadenia je splnený, čo v tomto prípade znamená, že výstupná veličina sa približuje k nulovej hodnote, a všetky signály uzavretého regulačného obvodu sú ohraničené. To znamená, že URO je stabilný.
+
+Podrobnejšia diskusia z pohľadu Adaptívneho riadenia je nad rámec konkrétne tejto časti krátkych poznámok.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\subsection{O realistickej implementácii riadiaceho systému tu uvedeného}
+
+
+Uvažujme riadený systém v tvare
+\begin{equation}
+	\dot{x}(t) = a\, x(t) + u(t)
+\end{equation}
+kde $x(t)$ je stavová veličina systému, $u(t)$ je akčný zásah (výstup) regulátora. Parameter $a$ je neznáma konštanta.
+
+Funkcia, ktorá realizuje diferenciálnu rovnicu riadeného systému, nech je v tvare:
+
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file03.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c01-c01,
+                 ]{../../PY/ar02_file03.py}
+}
+
+Nech začiatočný stav riadeného systému je $x(0) = 1$ a nech hodnota parametra $a$ je taká aby riadený systém bol nestabilný. Pridajme k riadenému systému riadiaci systém daný nasledovne:
+\begin{equation}
+	u = -k\, x; \qquad \dot{k} = x^2
+\end{equation}
+
+
+Simulačná schéma, ktorá realizuje numerickú simuláciu riadeného systému pomocou ODE solvera, a zároveň realizuje istú implementáciu daného riadiaceho systému, je nasledovná:
+
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file03.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c02-c02,
+                 ]{../../PY/ar02_file03.py}
+}
+
+\noindent
+Nastavme a spustime simuláciu:
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file03.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c03-c03,
+                 ]{../../PY/ar02_file03.py}
+}
+
+
+\noindent
+Obrázok, ktorý zobrazuje okrem výstupnej veličiny riadeného systému aj iné veličiny potrebné pre posúdenie stability celého uzavretého regulačného obvodu.
+
+{\catcode`\-=12
+\lstinputlisting[language=Python,
+                 caption={Súbor \lstinline{ar02_file03.py}},
+                 % label={vypk01},
+				 consecutivenumbers=false,
+				 linerange=c04-c04,
+                 ]{../../PY/ar02_file03.py}
+}
+
+
+\begin{centering}
+
+	\makebox[\textwidth][c]{%
+	\includegraphics{figsc_ar02_f03_f01_0.pdf}
+	}
+
+    \vspace{-2mm}
+
+    \figcaption{}
+
+    \vspace{2mm}
+
+    \label{figsc_ar02_f03_f01_0}
+
+\end{centering}
+
+\noindent
+V čom je tá implementácia „realistická“? To je na diskusiu, ktorú tu autor neuvádza\ldots
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{O stabilite (doplnkový text)}
+
+
+\paragraph{Riešenie}
+
+Majme autonómny dynamický systém vo všeobecnosti v tvare (homogénna diferenciálna rovnica) 
+\begin{equation} \label{vusetrovanySystem}
+	\dot{x} = F(x)
+\end{equation}
+Hovoríme, že $x(t)$ je \emph{riešenie} diferenciálnej rovnice \eqref{vusetrovanySystem} na časovom intervale od $t_0 \in \mathbb{R}$ do $t_f \in \mathbb{R}$ ak
+\begin{equation}
+	\frac{\text{d}x(t)}{\text{d}t} = F \big( x(t)  \big) \qquad \text{pre} \; t_0 < t < t_f
+\end{equation}
+Daná diferenciálna rovnica môže mať mnoho riešení, najčastejšie nás však zaujíma úloha so zadaným začiatočným stavom, inými slovami so zadanými začiatočnými podmienkami, kedy $x(t)$ je predpísané v začiatočnom čase $t_0$ a úlohou je nájsť riešenie vyhovoujúce pre celý budúci čas $t>t_0$. Vtedy $x(t)$ je riešenie diferenciálnej rovnice \eqref{vusetrovanySystem} so začiatočným stavom $x_0 \in \mathbb{R}^n$ v čase $t_0$ ak
+\begin{equation}
+	x(t_0) = x_0 \quad \text{a} \quad \frac{\text{d}x(t)}{\text{d}t} = F \big( x(t)  \big) \quad \text{pre} \; t_0 < t < t_f
+\end{equation}
+Najčastejšie sa stretávame s diferenciálnymi rovnicami, pre ktoré existuje jedinečné riešenie, navyše pre celý čas $t>t_0$ čo znamená že $t_f = \infty$. Častým je tiež, že funkcia $F$ je nezávislá od času, preto môžme uvažovať $t_0 = 0$.
+
+
+\paragraph{Stabilita riešenia}
+
+\emph{Stabilita riešenia} určuje či iné riešenia v~blízkosti skúmaného riešenia ostávajú v~jeho blízkosti, približujú sa k~nemu alebo sa od neho vzďaľujú. Uvedieme niekoľko neformálnych a formálnych definícií stability.
+
+
+Nech $x(t;a)$ je riešenie diferenciálnej rovnice so začiatočným stavom $a$. Toto riešenie je stabilné ak iné riešenia, ktoré začínajú v blízkosti $a$ zostávajú v blízkosti $x(t;a)$. Formálne, hovoríme, že riešenie $x(t;a)$ je stabilné ak pre všetky $\epsilon > 0$ existuje $\delta > 0$ taká, že
+\begin{equation} \label{stabilDef}
+	\left\| b - a \right\| < \delta \; \Rightarrow \; \left\| x(t;b) - x(t;a) \right\| < \epsilon, \; \forall \, t>0
+\end{equation}
+
+Všimnime si, že to neznamená, že $x(t;b)$ sa približuje k~$x(t;a)$, len ostáva v~jeho blízkom okolí. Navyše hodnota $\delta$ môže závisieť od $\epsilon$, teda napríklad ak chceme ostať blízko nejakého riešenia potom musíme začať veľmi blízko tohto riešenia. Takto definovaná stabilita sa nazýva \emph{stabilita v zmysle Lyapunova}.
+
+
+
+
+
+
+
+\paragraph{Príklad}
+
+Ilustrujeme uvedenú podmienku \eqref{stabilDef} na riešení diferenciálnej rovnice kyvadla.
+
+\bigskip
+
+
+Uvažujme kyvadlo, ktorého kmity sú tlmené viskóznym trením s koeficientom $\beta$ [kg~m$^2$~s$^{-1}$]. Kyvadlo je na Obr.~\ref{Kyvadlo}, kde hmotný bod s~hmotnosťou $m$ [kg] pripevnený na ramene so zanedbateľnou hmotnosťou a dĺžkou $l$ [m] kmitá, $o$ označuje os otáčania kolmú na rovinu, v~ktorej kyvadlo kmitá, uhol medzi zvislicou a ramenom kyvadla je označený $\varphi$ [rad] a~gravitačné zrýchlenie $g$~[m~s$^{-2}$].
+
+Pohybová rovnica opisujúca dynamiku rotačného pohybu kyvadla je v tvare
+\begin{subequations} \label{PohRovKyvadla}
+\begin{align}
+		&ml^2 \ddot{\varphi} = -\beta \dot{\varphi} - mgl\sin{\varphi} + u \\
+		&ml^2 \ddot{\varphi} + \beta \dot{\varphi} + mgl\sin{\varphi} = u \label{PohRovKyvadlab}
+\end{align}
+\end{subequations}
+kde $u$ [kg~m$^2$~s$^{-2}$] je externý moment sily pôsobiaci na rameno kyvadla, $\dot{\varphi}$ [rad~s$^{-1}$] je uhlová rýchlosť a~$\ddot{\varphi}$~[rad~s$^{-2}$] je uhlové zrýchlenie ramena kyvadla.
+
+Model kyvadla \eqref{PohRovKyvadlab} je nelineárna diferenciálna rovnica.  Rovnicu \eqref{PohRovKyvadlab} upravíme na tvar
+\begin{align}
+	\ddot{\varphi} = - \frac{\beta}{ml^2} \dot{\varphi} - \frac{g}{l} \sin(\varphi) + \frac{1}{ml^2}u
+\end{align}
+
+
+
+
+Stavom kyvadla sú dve veličiny: uhol natočenia ramena kyvadla $\varphi$ a~uhlová rýchlosť ramena kyvadla $\dot\varphi$. Stavový vektor má preto dva prvky $x^{\mathsf{T}} = \begin{bmatrix} x_1 & x_2	\end{bmatrix}$, kde $x_1 = \varphi$ a~$x_2 = \dot\varphi$. Model kyvadla v stavovom priestore je v tvare
+\begin{subequations}
+	\begin{align}
+		\begin{bmatrix}
+			\dot{x}_1 \\ \dot{x}_2
+		\end{bmatrix}
+		&=
+		\begin{bmatrix}
+			x_2 \\ - \frac{\beta}{ml^2} x_2 - \frac{g}{l} \sin(x_1)
+		\end{bmatrix}
+		+
+		\begin{bmatrix}
+			0 \\ \frac{1}{ml^2}
+		\end{bmatrix}
+		u \\
+		\varphi &= x_1
+	\end{align}
+\end{subequations}
+Toto je nelineárny časovo-invariantný systém druhého rádu.
+
+
+
+
+Z hľadiska stability má význam uvažovať tento systém, avšak bez vstupu, inými slovami externý moment sily je nulový, $u = 0$. Potom
+\begin{subequations}
+	\begin{align} \label{fajnVektRov}
+		\begin{bmatrix}
+			\dot{x}_1 \\ \dot{x}_2
+		\end{bmatrix}
+		&=
+		\begin{bmatrix}
+			x_2 \\ - \frac{\beta}{ml^2} x_2 - \frac{g}{l} \sin(x_1)
+		\end{bmatrix}
+ \\
+		\varphi &= x_1
+	\end{align}
+\end{subequations}
+Toto je autonómny nelineárny časovo-invariantný systém druhého rádu. Jeho správanie závisí len od začiatočného stavu na začiatku uvažovaného času.
+
+
+
+
+\begin{figure}[t]
+	\centering
+	\makebox[\textwidth][c]{%
+
+	\includegraphics{Obr_Kyvadlo_standalone.pdf}
+	\includegraphics{Obr_iKyvadlo_standalone.pdf}
+
+	}
+
+\caption{Kyvadlo}
+\label{Kyvadlo}
+
+\vspace{-2mm}
+\end{figure}
+
+
+\begin{table}[!t]
+    \catcode`\-=12
+    \caption{Parametre kyvadla}
+    \label{Parametre kyvadla}
+    
+    \vspace{-2mm}
+    
+    \begin{tabular*}{\textwidth}{     c @{\extracolsep{\fill} }    c   c       }
+    \toprule
+    Parameter   & Hodnota    & Jednotky              \\
+    \midrule
+    $m$       & $1$   & kg             \\
+    $l$    &  $1$  & m \\
+    $g$   & $9,81$  & m s$^{-2}$ \\
+    $\beta$  &  $2 \cdot 0,5 \cdot \sqrt{g/l}$ &  kg~m$^2$~s$^{-1}$ \\
+    \bottomrule
+    \end{tabular*}
+    
+    \vspace{-1.5mm}
+    
+\end{table}
+
+
+
+
+
+
+
+
+
+
+
+\begin{figure}[!b]
+	\centering
+	\vspace{-10mm}
+	\makebox[\textwidth][c]{%
+
+			\subfloat[Trajektórie riešení systému v stavovom priestore pre rôzne začiatočné stavy $a$ a $b$ v časovom intervale $t_0 < t < t_f$]{\label{Trajektórie stavu kyvadla v stavovom priestore}%
+		\makebox[8.3cm][l]{\includegraphics{Obr_Trajekt_1.pdf}}
+		}
+		\quad
+			\subfloat[Trajektória rozdielu dvoch riešení daných začiatočnými stavmi $a$ a $b$ v časovom intervale $t_0 < t < \infty$]{\label{Trajektória rozdielu dvoch riešení daných začiatočnými stavmi }%
+			\makebox[8.3cm][r]{\includegraphics{Obr_Trajekt_2.pdf}}
+		}
+	}
+	%\hspace{-1cm}
+	\caption{Ilustračný príklad k definícii stability riešenia systému}
+	\label{Ilustračný príklad k definícii stability riešenia systému}
+\end{figure}
+
+
+
+
+
+
+
+
+
+\begin{figure}[!t]
+    \centering
+
+    \vspace{-8mm}
+
+    \makebox[\textwidth][c]{%
+    \includegraphics{Obr_KyvadloFazPortret_standalone.pdf}
+    }
+
+    \vspace{-13mm}
+
+    \caption{Fázový portrét kyvadla}
+    \label{Fázový portrét kyvadla}
+
+
+
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\bigskip
+
+
+Začiatočný čas zvoľme $t_0 = 0$ [s], konečný čas zvoľme $t_f = 1,4$ [s], začiatočnú polohu kyvadla zvoľme $\varphi = 45^{\circ}$ a~začiatočná rýchlosť kyvadla nech je nulová. Začiatočný stav v~stavovom priestore je $a = \begin{bmatrix} 0,7854 & 0 \end{bmatrix}^\mathsf{T}$. Týmto začiatočným podmienkam prislúcha riešenie $x(t;a)$, ktoré je znázornené v stavovom priestore na Obr.~\ref{Trajektórie stavu kyvadla v stavovom priestore}, kde je vyznačený aj začiatočný stav $a$. Nebudeme skúmať všetky $\epsilon > 0$, preskúmame len jedno. Napríklad pre $\epsilon = 0,15$ hľadájme $\delta > 0$, ktorá spĺňa podmienku \eqref{stabilDef}. Taká $\delta$ existuje, pretože pre riešenie $x(t;b)$, ktoré začína v stave $b = \begin{bmatrix} 0,8727 & 0 \end{bmatrix}^\mathsf{T}$ platí, že $\left\| x(t;b) - x(t;a) \right\| < \epsilon$, čo je zrejmé z~Obr.~\ref{Trajektórie stavu kyvadla v stavovom priestore} a~aj z~Obr.~\ref{Trajektória rozdielu dvoch riešení daných začiatočnými stavmi }, kde je navyše predĺžený čas riešenia až do nekonečna. Potom sme našli napríklad $\delta = 0,1$ pretože platí
+\begin{equation}
+	\begin{split}
+		\left\| b - a \right\| &= \sqrt{(0,8721 - 0,7854)^2 + (0 - 0)^2} =  0,0873 < 0,1
+	\end{split}
+\end{equation}
+čo je tiež zrejmé najmä z~Obr.~\ref{Trajektória rozdielu dvoch riešení daných začiatočnými stavmi }. Týmto sme nezistili nič o~stabilite riešenia $x(t;a)$, pretože sme neoverili, či je podmienka \eqref{stabilDef} splnená pre všetky $\epsilon > 0$.
+
+
+
+
+
+Ak je riešenie stabilné v zmysle Lyapunova, ale trajektórie okolitých riešení k nemu nekonvergujú, hovoríme, že riešenie je \emph{neutrálne stabilné}.
+
+
+Riešenie $x(t;a)$ je \emph{asymptoticky stabilné} ak je stabilné v~zmysle Lyapunova a~zároveň $x(t;b) \to x(t;a)$ s~rastúcim časom $t \to \infty$ pri začiatočnom stave $b$, ktorý je dostatočne blízko stavu~$a$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+Veľmi dôležitým špeciálnym prípadom je ak pre skúmané riešenie platí $x(t;a) = x_e$. Potom nehovoríme o stabilite riešenia ale o~\emph{stabilite stacionárneho bodu}. Príkladom asymptoticky stabilného stacionárneho bodu sú body
+\begin{align*}
+	x_{e_{-2}} =
+	\begin{bmatrix}
+		-2\pi \\ 0
+	\end{bmatrix},
+	\quad
+	x_{e_{0}} =
+	\begin{bmatrix}
+		0 \\ 0
+	\end{bmatrix},
+	\quad
+	\text{a}
+	\quad
+	x_{e_{2}} =
+	\begin{bmatrix}
+		2 \pi \\ 0
+	\end{bmatrix}
+\end{align*}
+na Obr.~\ref{Fázový portrét kyvadla}, vidíme, že ak začíname blízko asymptoticky stabilného stacionárneho bodu, s narastajúcim časom sa k nemu približujeme.
+
+Zdrojový kód pre MATLAB pre získanie tohto obrázku je nasledovný:
+\begin{lstlisting}[language=Matlab, title=Kód pre vygenerovanie obr.~\ref{Fázový portrét kyvadla}]
+global m l g beta
+m = 1; %kg
+l = 1; %m
+g = 9.81; %m/s^2
+beta = 2*0.5*sqrt(g/l); %kgm^2/s
+
+for uhlovarychlost = -2:4:2
+  for uhol = -360:22.5:360
+    [t,x]=ode45(@PravaStr,[0 5],[uhol*pi/180 uhlovarychlost]);
+    hold on
+    stav = x;
+    x = x(1:5:end-70,:);
+    x1dot = x(:,2);
+    x2dot=-(beta/m*l^2)*x(:,2)-(g/l)*sin(x(:,1));
+    quiver(x(:,1),x(:,2),x1dot,x2dot,0.5,'k')
+    plot(stav(:,1),stav(:,2),'k');
+    hold off
+  end
+end
+
+axis equal
+axis([-2*pi 2*pi -2 2])
+\end{lstlisting}
+kde funkcia \verb|PravaStr| je
+\begin{lstlisting}[language=Matlab]
+function dotx = PravaStr(t,x)
+  global m l g beta
+  dotx(1)=x(2);
+  dotx(2)=-(beta/m*l^2)*x(2)-(g/l)*sin(x(1));
+  dotx=dotx';
+end
+\end{lstlisting}
+
+
+
+
+
+Riešenie $x(t;a)$ je \emph{nestabilné} ak nie je stabilné. Konkrétnejšie, hovoríme, že riešenie $x(t;a)$ je nestabilné ak pre akékoľvek dané $\epsilon > 0$ neexistuje $\delta > 0$ taká, že ak $\left\| b - a \right\|~<~\delta \; \text{potom} \; \left\| x(t;b) - x(t;a) \right\| < \epsilon, \; \forall \, t>0$. Príkladom nestabilného stacionárneho bodu sú body
+\begin{align*}
+	x_{e_{-1}} =
+	\begin{bmatrix}
+		-\pi \\ 0
+	\end{bmatrix},
+	\quad
+	\text{a}
+	\quad
+	x_{e_{1}} =
+	\begin{bmatrix}
+		\pi \\ 0
+	\end{bmatrix}
+\end{align*}
+na Obr.~\ref{Fázový portrét kyvadla}.
+
+Predchádzajúce definície nezohľadňujú oblasť, na ktorej môžu byť použité. Presnejšie je definovať riešenie ako \emph{lokálne stabilné} (alebo \emph{lokálne asymptoticky stabilné}) ak je stabilné pre všetky začiatočné stavy $x \in B_r(a)$, kde $B_r(a) = \left\{ x \, : \, \| x - a \| < r \right\}$ je oblasť s polomerom $r > 0$ okolo bodu $a$. Riešenie je \emph{globálne stabilné} ak je stabilné pre všetky $r > 0$.
+
+
+
+
+
+
+
+
+
+
+
+\subsection{Stabilita lineárnych systémov}
+
+
+
+Lineárny dynamický systém má tvar
+\begin{equation}
+	\dot{x} = A x, \quad x(0) = x_0
+\end{equation}
+kde $A \in \mathbb{R}^{n\times n}$ je štvorcová matica. Začiatok stavového priestoru je vždy stacionárnym bodom lineárneho systému a stabilita tohto stacionárneho bodu môže byť určená pomocou vlastných čísel matice $A$.
+
+Vlastné čísla $\lambda(A)$ sú korene \emph{charakteristického polynómu} systému $\det(sI - A)$, kde $s \in \mathbb{C}$ je komplexná premenná a $I$ je jednotková matica. Konkrétne vlastné číslo ($i$-te vlastné číslo) označujeme $\lambda_i$, pričom $\lambda_i \in \lambda(A)$.
+
+Pre lineárny systém stabilita stacionárneho bodu (ako veľmi dôležitého špeciálneho prípadu spomedzi všetkých riešení) závisí len od matice $A$, čo znamená, že stabilita je vlastnosť systému. Pre lineárny systém preto hovoríme o stabilite systému namiesto o~stabilite konkrétneho riešenia alebo ekvilibria.
+
+
+Stabilitu lineárneho systému možno zhrnúť do jednej vety:
+
+{ \it
+\noindent
+Systém
+\begin{equation*}
+	\dot{x} = A x
+\end{equation*}
+je asymptoticky stabilný vtedy a len vtedy keď reálne časti všetkých vlastných čísel matice $A$ sú záporné a systém je nestabilný keď aspoň jedno vlastné číslo matice $A$~má kladnú reálnu časť.
+}
+
+
+
+
+
+
+
+
+
+\subsection{Linearizácia a jej použitie pri analýze stability}
+
+
+
+
+Výhodnou vlastnosťou diferenciálnych rovníc je, že je často možné určiť lokálnu stabilitu stacionárneho bodu pomocou aproximácie nelineárneho systému lineárnym systémom.
+
+Uvažujme nelineárny systém
+\begin{align}
+	\dot{x} = F(x)
+\end{align}
+ktorý má ekvilibrium v bode $x_e$. Zaujíma nás stabilita tohto stacionárneho bodu. Aproximujme (linearzujme) nelineárnu funkciu $F(x)$ v okolí bodu $x_e$ pomocou prvých dvoch členov Taylorvho radu
+\begin{align}
+	F(x) \approx F(x_e) + \left. \frac{\partial F}{\partial x} \right|_{x_e} (x - x_e)
+\end{align}
+Platí $F(x_e) = 0$, a zavedieme nový stavový vektor $z = x - x_e$. To znamená, že $x = z + x_e$, potom $\dot{x} = \dot{z} + \dot{x}_e$, avšak $x_e$ sa s časom nemení a preto platí  $\dot{x} = \dot{z}$. Lineárna aproximácia pôvodného nelineárneho systému v~okolí bodu $x_e$ má potom tvar
+\begin{align}
+	\dot{z} = Az
+\end{align}
+kde
+\begin{align} \label{matApoLinearizacii}
+	A = \left. \frac{\partial F}{\partial x} \right|_{x_e}
+\end{align}
+
+V prípade kyvadla je nelineárny model systému v~tvare \eqref{fajnVektRov} a teda
+\begin{align}
+	x=
+	\begin{bmatrix}
+		{x}_1 \\ {x}_2
+	\end{bmatrix}
+	;
+	\;
+	F=
+	\begin{bmatrix}
+		F_1 \\ F_2
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		x_2 \\ - \frac{g}{l} \sin(x_1) - \frac{\beta}{ml^2} x_2
+	\end{bmatrix}
+\end{align}
+Linearizujme nelineárny model systému \eqref{fajnVektRov} v okolí rovnovážneho stavu $x_e = \begin{bmatrix} 0 & 0 \end{bmatrix}^\mathsf{T}$. Kľúčovým je výpočet matice $A$ podľa \eqref{matApoLinearizacii}. V tomto prípade máme
+\begin{align} \label{lineF}
+	\begin{split}
+	\frac{\partial F}{\partial x}
+	=
+	\begin{bmatrix}
+		\displaystyle\frac{\partial}{\partial x_1} \left( F_1 \right) & \displaystyle\frac{\partial}{\partial x_2} \left( F_1 \right) \\
+		\displaystyle\frac{\partial}{\partial x_1} \left( F_2 \right) & \displaystyle\frac{\partial}{\partial x_2} \left( F_2 \right)
+	\end{bmatrix} =
+	\begin{bmatrix}
+		0 & 1 \\
+		- \displaystyle\frac{g}{l} \cos(x_1) & - \displaystyle\frac{\beta}{ml^2}
+	\end{bmatrix}
+\end{split}
+\end{align}
+Po dosadení hodnôt stacionárneho bodu za $x_1 = 0$ (a~$x_2 = 0$) do \eqref{lineF} máme
+\begin{align}
+	A = \left. \frac{\partial F}{\partial x} \right|_{x_e}
+	=
+	\begin{bmatrix}
+		0 & 1 \\
+		- \displaystyle\frac{g}{l}  & - \displaystyle\frac{\beta}{ml^2}
+	\end{bmatrix}
+\end{align}
+a vzľadom na fakt, že v tomto prípade $x_e = 0$ je linearizovaný model systému v tvare
+\begin{align} \label{vyslednyLinearnyModel}
+	\begin{bmatrix}
+		\dot{x}_1 \\ \dot{x}_2
+	\end{bmatrix}
+	=
+	\begin{bmatrix}
+		0 & 1 \\
+		- \displaystyle\frac{g}{l}  & - \displaystyle\frac{\beta}{ml^2}
+	\end{bmatrix}
+	\begin{bmatrix}
+		{x}_1 \\ {x}_2
+	\end{bmatrix}
+\end{align}
+
+Lokálna stabilita stacionárneho bodu nelineárneho systému teraz môže byť určená pomocou vlastných čísel matice $A$.
+
+
+
+
+
+
+\begin{figure}[!t]
+	\centering
+
+	\makebox[\textwidth][c]{%
+
+	\subfloat[Fázový portrét nelineárneho modelu kyvadla]{%\label{Trajektórie stavu kyvadla v stavovom priestore}%
+		\makebox[8.3cm][c]{\includegraphics{Obr_FazPor_1.pdf}}
+	}
+	\hfill
+	\subfloat[Fázový portrét lineárneho modelu kyvadla]{%\label{Trajektórie stavu kyvadla v stavovom priestore}%
+		\makebox[8.3cm][c]{\includegraphics{Obr_FazPor_2.pdf}}
+	}
+
+	}
+	\caption{Porovnanie fázových portrétov nelineárneho systému a jeho linearizovanej aproximácie}
+	\label{Porovnaniefazpor}
+\end{figure}
+
+
+
+
+
+Mimochodom výsledný lineárny model \eqref{vyslednyLinearnyModel} je rovnaký, ako keby sme uvažovali, len malé výchylky kyvadla (malé hodnoty uhla $\varphi$), pri ktorý dostatočne presne platí, že $\sin(\varphi) = \varphi$ (angl. Small-angle approximation).
+
+Skutočnosť, že lineárny model môže byť použitý pre opis správania nelineárneho systému v okolí rovnovážneho stavu je veľmi výhodná. Je to možné využiť aj pre návrh spätnoväzbového regulátora, ktorý udržiava stav nelineárneho systému v okolí rovnovážneho stavu. Pritom samotný regulátor je navrhnutý pre lineárnu aproximáciu systému. Keďže stav systému je regulátorom udržiavaný blízko stacionárneho bodu, tak aj lineárna aproximácia použitá pri stabilizácii je dostatočne presná.
+
+Na Obr.~\ref{Porovnaniefazpor} je porovnanie fázových portrétov nelineárneho modelu kyvadla a~linearizovaného modelu kyvadla v~okolí začiatku stavového priestoru. Všimnime si, že v~okolí stacionárneho bodu (začiatku súradnicového systému) sú tieto fázové portréty takmer identické.
+
+
+
+
+
+
+
+
+
+\subsection{Analýza stability pomocou Lyapunovových funkcií}
+
+Vráťme sa opäť k nelineárnym systémom v~tvare
+\begin{align*}
+	\dot{x} = F(x)
+\end{align*}
+Máme definované kedy je riešenie nelineárneho dynamického systému stabilné. Teraz hľadáme odpoveď na otázku ako dokázať, že dané riešenie je stabilné, asymptoticky stabilné alebo nestabilné. Pri fyzikálnych systémoch môžme vyvodiť závery o stabilite podľa toho či systém na danej trajektórii stráca energiu, inými slovami či hodnota energie klesá (disipatívny systém), alebo nie. Zovšeobecnenie tejto techniky pre ľubovolný dynamickým systém je založené na použití Lyapunovových funkcií na miesto energie.
+
+V tejto časti sa venujeme použitiu Lyapunovových funkcií pri určovaní stability riešenia dynamického systému. Konkrétne nás zaujíma stabilita stacionárnych bodov. Je výhodné uvažovať, že vyšetrovaný stacionárny bod je v začiatku stavového priestoru, teda $x_e = 0$. Ak nie je, vždy je možné prepísať rovnice systému zavedením nových (posunutých) stavových veličín $z = x - x_e$.
+
+
+
+
+
+
+\subsubsection{Lyapunovove funkcie}
+
+\emph{Lyapunovova funkcia} $V \, : \, \mathbb{R}^n \to \mathbb{R}$ sa používa (podobne ako energia) pri vyšetrovaní stability (riešenia) systému. Zjednodušene povedané, ak nájdeme nezápornú funkciu, ktorá je klesajúca pozdĺž trajektórie systému, môžeme usúdiť, že bod, v ktorom táto funkcia dosiahne minimum je stabilným (lokálne) stacionárnym bodom systému.
+
+Pre formálny opis uvedeného je potrebných niekoľko definícií: Hovoríme, že spojitá funkcia $V$ je \emph{kladne definitná} ak $V(x)>0$ pre všetky $x \neq 0$ a $V(0)=0$, a podobne, funkcia je \emph{záporne definitná} ak $V(x)<0$ pre všetky $x \neq 0$ a $V(0)=0$. Hovoríme, že funkcia $V$ je \emph{kladne semidefinitná} ak $V(x)\geq 0$ pre všetky $x$, teda $V(x)$ môže byť nulová aj v inom bode ako $x = 0$, podobne, funkcia je \emph{záporne semidefinitná} ak $V(x)\leq 0$ pre všetky $x$.
+
+Teorém, ktorý charakterizuje stabilitu stacionárneho bodu dynamického systému, ktorý je v začiatku stavového priestoru, je nasledovný:
+
+\noindent
+{ \it
+Nech $V$~je nezáporná skalárna funkcia na $\mathbb{R}^n$ a~nech $\dot{V}$~reprezentuje časovú deriváciu funkcie $V$~pozdĺž trajektórie dynamického systému $\dot{x} = F(x)$:
+\begin{equation*}
+	\dot{V} = \frac{\partial V}{\partial x} \frac{\text{\rm d}x}{\text{\rm d}t} = \frac{\partial V}{\partial x}F(x).
+\end{equation*}
+Nech $B_r$ je okolie začiatku súradnicového systému s~polomerom $r$. Ak existuje $r > 0$ taký, že $V$~je kladne definitná funkcia a~$\dot{V}$~je záporne semidefinitná funkcia pre všetky $x \in B_r$, potom $x = 0$ je lokálne stabilný stacionárny bod v zmysle Lyapunova. Ak $V$~je kladne definitná a~$\dot{V}$~je záporne definitná pre všetky $x \in B_r$, potom $x = 0$ je lokálne asymtoticky stabilný bod.
+}
+
+Ak $V$~spĺňa práve uvedené podmienky, potom hovoríme, že $V$~je (lokálna) \emph{Lyapunovova funkcia} systému.
+
+
+
+
+
+
+
+
+
+
+\subsubsection{Analýza stability}
+
+Výsledky uvedené vyššie majú pre planárne systémy svoju geometrickú reprezentáciu. Pre kladne definitnú $V$ môžme definovať vrstevnice ako body v stavovom priestore, ktoré spĺňajú $V(x) = c$, kde $c>0$. Tam, kde platí $\dot{V}<0$  vektorové pole ukazuje vždy smerom k~\uv{nižšej} vrstevnici, od vrstevnice $c_2$~k~$c_1$, kde $c_2 > c_1$. To znamená, že trajektória smeruje k~menším a~menším hodnotám fukcie $V$ a ak $\dot{V}$ je záporne definitná, potom sa $x$ približuje k nule. Aj toto ilustruje nasledujúci príklad určenia stability stacionárneho bodu kyvadla.
+
+Lyapunovove funkcie často nie je jednoduché nájsť, a~tiež nie sú unikátne. V~mnohých prípadoch je výhodné pri hľadaní vhodného kandidáta na Lyapunovovu funkciu začať funkciou, ktorá vyjadruje celkovú energiu systému, najmä pri fyzikálnych systémoch. Tak je to aj v~nasledujúcom príklade.
+
+Uvažujme nelineárny model kyvadla, podľa \eqref{fajnVektRov}, v~tvare
+\begin{subequations} \label{LePovodnySystem}
+	\begin{align}
+		\dot{x}_1  &= x_2 \\
+		\dot{x}_2  &= -\frac{g}{l} \sin(x_1) - \frac{\beta}{ml^2} x_2
+	\end{align}
+\end{subequations}
+Úlohou je vyšetriť stabilitu stacionárneho bodu $x_e = \begin{bmatrix} 0 & 0  \end{bmatrix}^\mathsf{T}$. V tomto prípade teda nie je potrebné posúvať súradnicový systém, pretože vyšetrovaný stacionárny bod je v začiatku.
+
+
+
+
+
+
+
+\begin{figure}[t]
+	\centering
+	\makebox[\textwidth][c]{%
+	\includegraphics{Obr_LyapVisual.pdf}
+	}
+		\caption{Znázornenie celkovej mechanickej energie kyvadla $V$ ako funkcie stavu kyvadla \eqref{LeWildLyapCandidate}}
+	\label{Funkcia3D}
+\end{figure}
+
+
+
+
+
+
+
+Ako kandidáta na Lapunovovu funkciu použijeme celkovú (mechanickú) energiu systému. Nulovú potenciálnu energiu nech má kyvadlo pre $\varphi = x_1 = 0$. Potenciálna energia je $U = mgh$, kde $h = 2l - l - l\cos(x_1)$, teda
+\begin{equation}
+	U = mgl - mgl \cos(x_1)
+\end{equation}
+Pri rotačnom pohybe, vykonávanom kyvadlom, je (rotačná) kinetická energia
+\begin{equation}
+	K = \frac{1}{2} m l^2 x_2^2
+\end{equation}
+Celková energia kyvadla je súčtom kinetickej a~potenciálnej energie.
+
+Kandidát na Lyapunovovu funkciu systému je potom v~tvare
+\begin{equation} \label{LeWildLyapCandidate}
+	V = \frac{1}{2} m l^2 x_2^2 + mgl - mgl \cos(x_1)
+\end{equation}
+Funkcia \eqref{LeWildLyapCandidate} je znázornená na Obr.~\ref{Funkcia3D}. Táto funkcia je nezáporná pre všetky $x_1$~a~$x_2$, avšak nie je kladne definitná pre všetky $x_1$~a~$x_2$, pretože bod $x_e = \begin{bmatrix} 0 & 0  \end{bmatrix}^\mathsf{T}$ nie je jediný, kde funkcia nadobúda nulu. Ak uvažujeme len okolie začiatku $B_r$ s polomerom $0 < r < \pi$, potom funkcia $V$ je kladne definitná, pretože vtedy $-\pi < x_1 < \pi$ a len pre $x_e = \begin{bmatrix} 0 & 0  \end{bmatrix}^\mathsf{T}$ máme $V(x_e) = 0$.
+
+Časová derivácia funkcie pozdĺž trajektórie je
+\begin{subequations}
+	\begin{align}
+		\dot{V} &= m l^2 x_2 \left( -\frac{g}{l} \sin(x_1) - \frac{\beta}{ml^2} x_2 \right) + mgl \sin(x_1) x_2 \\
+		\dot{V} &= - m g l x_2 \sin(x_1) - \beta x_2^2 + mgl \sin(x_1) x_2 \\
+		\dot{V} &=  - \beta x_2^2
+	\end{align}
+\end{subequations}
+
+Funkcia $\dot{V}$ je záporne definitná pre všetky $x_2$~a~$x_1$, a teda aj pre tie, ktoré patria do uvažovaného okolia $B_r$. Preto môžme hovoriť, že na uvažovanom okolí stacionárneho bodu existuje Lyapunovova funkcia systému a preto je tento systém lokálne stabilný.
+
+
+
+
+
+Ak chceme určiť stabilitu inému stacionárnemu bodu, napr. $x_e = \begin{bmatrix} \pi & 0  \end{bmatrix}^\mathsf{T}$, je potrebné najskôr posunúť tento bod do začiatku stavového priestoru. Zavedieme nové posunuté stavové veličiny:
+\begin{equation}
+	z = x - x_e =
+	\begin{bmatrix} z_1 \\ z_2  \end{bmatrix}
+	=
+	\begin{bmatrix} x_1 \\ x_2  \end{bmatrix}
+	-
+	\begin{bmatrix} \pi \\ 0  \end{bmatrix}
+\end{equation}
+potom platí
+\begin{subequations} \label{LePosunute}
+	\begin{align}
+		x_1 &= z_1 + \pi \\
+		x_2 &= z_2
+	\end{align}
+\end{subequations}
+Dosadením \eqref{LePosunute} do pôvodného systému \eqref{LePovodnySystem} máme nový posunutý systém, ktorý má vyšetrovaný bod v~začiatku stavového priestoru v~tvare
+\begin{subequations} \label{LeNovySystem}
+	\begin{align}
+		\dot{z}_1  &= z_2 \\
+		\begin{split}
+			\dot{z}_2  &= -\frac{g}{l} \sin(z_1 + \pi) - \frac{\beta}{ml^2} z_2 =	\\
+			&= \frac{g}{l} \sin(z_1) - \frac{\beta}{ml^2} z_2
+			\end{split}
+	\end{align}
+\end{subequations}
+
+Mimochodom, \eqref{LeNovySystem} je model inverzného kyvadla.
+
+Môžme vyskúšať zvoliť toho istého kandidáta na Lyapunovovu funkciu ako \eqref{LeWildLyapCandidate} s~dosadením \eqref{LePosunute}, potom
+\begin{subequations}
+\begin{align}
+		V &= \frac{1}{2} m l^2 z_2^2 + mgl - mgl \cos(z_1 + \pi) \\
+		V &= \frac{1}{2} m l^2 z_2^2 + mgl + mgl \cos(z_1)
+\end{align}
+\end{subequations}
+Okamžite vidíme, že táto funkcia nemôže byť kandidátom na Lyapunovovu funkciu, pretože v nulovom bode (začiatku) nemá nulovú hodnotu $V(0) \neq 0$ a teda nie je kladne definitná.
+
+Aby sme dokázali, že daný stacionárny bod je \emph{nestabilný} (v tomto prípade vieme, že je nestabilný), musíme nájsť takú funkciu $V(x)$, ktorá je v okolí rovnovážneho bodu kladne definitná a jej časová derivácia pozdĺž trajektórie systému je \emph{tiež kladne definitná funkcia}.
+
+\noindent
+\ldots nájsť takú funkciu pre inverzné kyvadlo vôbec nie je jednoduché. Užitočnejším v tomto prípade je linearizovať systém v okolí daného stacionárneho bodu a určiť stabilitu tohto lineárneho systému pomocou vlastných čísiel dynamickej matice alebo tiež pomocou Lyapunovovej funkcie. O druhej možnosti hovorí nasledujúca časť.
+
+
+
+\subsubsection{Lyapunovova rovnica}
+
+Ako sme už uviedli, vo všeobecnosti nie je jednoduché nájsť vhodného kandidáta na Lypunovovu funkciu.
+Pre lineárny dynamický systém v tvare
+\begin{equation}
+	\dot{x} = Ax
+\end{equation}
+je však možné skonštruovať Lyapunovovu funkciu systematickým spôsobom, nasledovne:
+
+\noindent
+Uvažujme kvadratickú formu ako kandidáta na Lyapunovovu funkciu
+\begin{equation}
+	V(x) = x^\mathsf{T}Px
+\end{equation}
+kde $P \in \mathbb{R}^{n \times n}$ je symetrická matica, teda platí  $P = P^\mathsf{T}$. Podmienka aby $V$ bola kladne definitná je v tomto prípade ekvivalentná podmienke, že $P$ je \emph{kladne definitná matica}:
+$
+ x^\mathsf{T}Px > 0, \, \forall \, x \neq 0,
+$
+čo zapisujeme ako $P > 0$. Platí, že ak je matica $P$~symetrická, potom je matica $P$ kladne definitná vtedy a~len vtedy keď všetky vlastné čísla tejto matice sú reálne a~kladné.
+
+Časová derivácia uvažovaného kandidáta na Lyapunovovu funkciu pozdĺž trajektórie systému v tomto prípade je
+\begin{equation}
+	\dot{V} = \frac{\partial V}{\partial x} \dot{x} = x^\mathsf{T} \left( A^\mathsf{T}P + PA \right) x = -x^\mathsf{T}Qx
+\end{equation}
+Požiadavka aby $\dot{V}$ bola záporne definitná znamená, že matica $Q$~musí byť kladne definitná. Preto, pre nájdenie Lyapunovovej funkcie pre lineárny systém je postačujúce zvoliť maticu $Q > 0$ a vyriešiť tzv. \emph{Lyapunovovu rovnicu}:
+\begin{equation}
+	 A^\mathsf{T}P + PA = -Q
+\end{equation}
+čo je lineárna algebraická rovnica, ktorú možno riešiť pomocou lineárnej algebry. Dá sa ukázať, že táto rovnica má riešenie vždy ak vlastné čísla matice $A$ sú v ľavej polrovine komlexnej roviny (ich reálne časti sú záporné) a~navyše nájdená $P$ je kladne definitná ak $Q$ je kladne definitná. Preto je vždy možné nájsť kvadratickú Lyapunovovu funkciu pre stabilný lineárny systém.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\section{Otázky a úlohy}
+% \addcontentsline{toc}{section}{Otázky a úlohy}
+
+\begin{enumerate}[leftmargin=0pt, labelsep=3mm, itemsep=0pt]
+
+	\item Vyšetrite stabilitu systému
+	\begin{align*}
+		\dot{e}(t) &= -a_m\,e(t) + \theta(t) \, x(t)  \\
+		\dot{\theta}(t) &= -e(t) x(t)
+	\end{align*}
+	kde $a_m > 0$.
+
+
+
+	\item Je zadaný systém v tvare:
+		\begin{align*}
+			\dot{x}_1 &= x_2 \\
+			\dot{x}_2 &= -x_1 - x_2
+		\end{align*}
+		Načrtnite (zhruba) fázový portrét systému alebo aspoň vektorové pole systému.
+
+		\item Linearizujte model kyvadla v okolí stacionárneho bodu $x_e = \begin{bmatrix} \pi & 0 \end{bmatrix}^\mathsf{T}$. Bonus: Aký typ stacionárneho bodu je uvedený bod? Svoju odpoveď zdôvodnite.
+
+
+
+	\item Pomocou kandidáta na Lyapunovovu funkciu vyšetrite stabilitu systému
+			\begin{align*}
+					\dot{x}_1(t) &=  x_2(t)  \\
+					\dot{x}_2(t) &= - x_1(t) + 2 x_2(t)
+				\end{align*}
+
+
+
+	\item Pomocou kandidáta na Lyapunovovu funkciu vyšetrite stabilitu systému.
+	\begin{align*}
+	 	\dot{x}_1 &= -k_1\,x_1 + x_2 & k_1 &> 0 \\
+	 	\dot{x}_2 &= -k_2\,x_1  & k_2 &> 0
+	 \end{align*}
+
+
+
+
+\end{enumerate}
+
+
+
+\end{document}
